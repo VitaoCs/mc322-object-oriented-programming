@@ -47,9 +47,7 @@ public class Sala {
 
         System.out.print("Sala com ingresso automatico? [y/n]: ");
         String ingressoAutomaticoInput = scanner.next();
-        boolean ingressoAutomatico = ingressoAutomaticoInput == "y";
-        System.out.println(ingressoAutomaticoInput);
-        System.out.println(ingressoAutomatico);
+        boolean ingressoAutomatico = (ingressoAutomaticoInput == "y");
 
 		System.out.print("Data de criação da sala [dd/mm/aaaa]: ");
         String data = scanner.next();

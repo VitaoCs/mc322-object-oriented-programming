@@ -1,15 +1,14 @@
-// Questao: Qual o impacto de se tentar mudar diretamente o valor do atributo login de um dos objetos Usuario
-// no método main? Por quê?
-// Resposta: O compilador acusa um erro "error: <atributo> has private access in Usuario" , ja que atributos
-// com visibilidade "private" so podem ser alterados por metodos get/set da propria classe.
+// Questao: E possivel escrever uma classe sem escrever nenhum construtor? Por que?
+// Resposta: Ao intanciar uma classe o Java automaticamente define um construtor para a mesma quando e intanciada.
 
-// Questao: Como você trataria o problema levantado na questao anterior? Quais seriam os prós e os contras
-// desta nova abordagem? Que conceito de Orientação a Objetos estaria sendo ”quebrado” neste caso?
-// Resposta: Temos duas tratativas possiveis: a primeira seria de alterar a visibilidade do atributo para "public",
-// o que permite alterar seu valor fora da classe, podendo gerar problemas pois qualquer objeto da classe poderia
-// alterar os valores dos atributos e fere tambem o encapsulamento proposto da classe em Java. A segunda abordagem,
-// que foi a utilizada nesse laboratório, e a de criar metodos get/set para acessar e alterar os valores dos 
-// atributos da classe, mantendo o encapsulamento e seguranca do codigo
+// Questao: Um metodo estatico pode acessar uma variaval (atributo) nao estatico da classe? Por que?
+// Resposta: Nao, um metodo estatico nao pode acessar atributos nao estaticos. Isso se deve ao encapsulamento dos
+// objetos da classe, ja que um metodo estatico funcionaria como um metodo "global" para esses objetos, ele nao consegue
+// acessar os atributos dos objetos instanciados.
+
+// Questao: Um metodo nao estatico pode acessar uma variavel (atributo) estatico da classe? Por que?
+// Resposta: Sim, pois um atributo estatico, como o proprio metodo estatico, como dito acima, funciona como se fosse algo
+// "global" aos objetos instanciados da classe e, assim, pode ser acessado pelo metodo
 
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
