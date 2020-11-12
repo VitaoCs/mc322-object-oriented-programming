@@ -49,6 +49,12 @@ public class Grupo {
 		return this.dono;
 	}
 
+	// Funcao apenas para o teste do lab
+	// Nao faz sentido ja que o dono e "final"
+	// public Usuario setDono(Usuario dono) {
+	// 	this.dono = dono;
+	// }
+
 	public String getDonoLogin() {
         return dono.getLogin();
 	}
@@ -73,7 +79,7 @@ public class Grupo {
 		return this.status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Admin admin, boolean status) {
 		this.status = status;
 	}
 
@@ -97,9 +103,11 @@ public class Grupo {
 		if (numberMembers > 0) {
 			out = out + " membros: " + numberMembers;
 			out = numberMembers > 1 ? out + " , sendo eles: \n" : out + " , sendo ele: \n";
+			out = out + "*****************************\n";
 			for (Usuario user : this.membros) {
 				out = out + user.toString();
 			}
+			out = out + "*****************************\n";
 		}
 		return out ;
 	}

@@ -8,26 +8,26 @@ public class GrupoPrivado extends Grupo {
 		super(id, nome, descricao, dono, membros, status, dataCriacao);
 	}
 
-	public void adicionaMembro(Usuario novoMembro, int idUser) {
-		boolean isDono = idUser == getDonoId();
+	public void adicionaMembro(Usuario dono, Usuario novoMembro) {
+		boolean isDono = dono == getDono();
 		if (getStatus() && isDono) {
 			ArrayList<Usuario> membrosAtuais = getMembros();
 			membrosAtuais.add(novoMembro);
 			setMembros(membrosAtuais);
 		} else {
-			System.out.print("Grupo desativado ou usuário não é o dono");
+			System.out.print("Grupo desativado ou usuário não é o dono!! \n");
 		}
 	}
 
-	public void removeMembro(Usuario membro, int idUser) {
-		boolean isDono = idUser == getDonoId();
+	public void removeMembro(Usuario dono, Usuario membro) {
+		boolean isDono = dono == getDono();
 		if (getStatus() && isDono) {
 			ArrayList<Usuario> membrosAtuais = getMembros();
 			int index = membrosAtuais.indexOf(membro);
 			membrosAtuais.remove(index);
 			setMembros(membrosAtuais);
 		} else {
-			System.out.print("Grupo desativado ou usuário não é o dono");
+			System.out.print("Grupo desativado ou usuário não é o dono!! \n");
 		}
 	}
 
