@@ -1,52 +1,85 @@
-// Questao: E possivel escrever uma classe sem escrever nenhum construtor? Por que?
-// Resposta: Ao intanciar uma classe o Java automaticamente define um construtor para a mesma quando e intanciada.
+// Questao: Tente modificar o valor da dono de um grupo (que e um atributo final). Crie um setter se necessario.
+// Foi possivel fazer a modificacao? Explique.
+// Resposta: Apesar de tentar modificar e pegar a excecao num bloco try/catch, ao criar um setter para um atributo final o java
+// acusa erro, nao compilando. Isso se deve pelo atributo dono ser final, podendo ser declarado (atribuido valor) apenas uma unica vez
+// durante a instanciacao do objeto
 
-// Questao: Um metodo estatico pode acessar uma variaval (atributo) nao estatico da classe? Por que?
-// Resposta: Nao, um metodo estatico nao pode acessar atributos nao estaticos. Isso se deve ao encapsulamento dos
-// objetos da classe, ja que um metodo estatico funcionaria como um metodo "global" para esses objetos, ele nao consegue
-// acessar os atributos dos objetos instanciados.
+// Questao: Agora, no metodo main, crie uma variavel final do tipo Grupo, e instancie ela com os valores que preferir. Tente modificar
+// algum atributo do objeto atraves de um setter, como o atributo referente ao id. Foi possivel modificar esse atributo, mesmo
+// com o objeto sendo final? Por que?
+// Resposta: Foi possível modificar o atributo ja que o objeto em si e final, porem seus atributos (tirando o usuario), nao.
+// Portanto se quisermos atribuir um outro grupo para o objeto instanciado nao teria como, ja que ele em si e final
 
-// Questao: Um metodo nao estatico pode acessar uma variavel (atributo) estatico da classe? Por que?
-// Resposta: Sim, pois um atributo estatico, como o proprio metodo estatico, como dito acima, funciona como se fosse algo
-// "global" aos objetos instanciados da classe e, assim, pode ser acessado pelo metodo
+// Questao: Se ao inves de usar ArrayList para definir a lista de membros da classe Grupo tivessemos usado um array, o que mudaria
+// na implementação? Poderiamos continuar adicionado membros como fizemos? Haveria alguma limitação? Discuta as
+// desvantagens dessa solução.
+// Resposta: Utilizando um array teriamos que instanciar o seu tamanho, ja que ele nao e dinamico como um ArrayList. Alem de ter
+// um tamanho fixo, seria necessario tratar os itens do array direto pelo seu index (ja no ArrayList funciona em esquema de fila,
+// podemos simplesmente dar um .add ou .remove nos elementos).
 
+// Questao: Qual o principal beneficio da heranca?
+// Resposta: Implementar classes mais especializadas partindo de uma classe generica/global, reutilizando codigo
+
+// Questao: Adicione final na classe Grupo. O que aconteceu com o código? Por que isso aconteceu? Em vez de Grupo ser final e se
+// definirmos GrupoPublico como final?
+// Resposta: O codigo nao compila e acusa erro na hora que queremos herdar a classe Grupo nas classes GrupoPrivado e GrupoPublico.
+// Isso acontece pois nao podemos estabelecer heranca numa classe final.
+
+// Questao: Por que definimos os métodos adicionaMembro e removeMembro nas classes filhas e não na classe mãe (Grupo)?
+// Resposta: Porque a implementacao e diferente entre as classes GrupoPublico e GrupoPrivado. Por ter um comportamento distinto entre
+// essas duas classes, nao podemos tratar como um metodo "padrao" q pode ser herdado por todas elas. Ja que nessas classes cada metodo
+// e mais especializado com um difeente comportamento, entao ele deve ser declarado nessas classes mais especializadas
+
+import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.text.SimpleDateFormat;
-import java.util.Scanner;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in);
+		GregorianCalendar defaultDate = new GregorianCalendar(2020, 9, 2);
 
-		// Lab01: criar Usuario e Perfil
-		GregorianCalendar calendarFirstUser = new GregorianCalendar(2020, 9, 2);
-		GregorianCalendar calendarSecondUser = new GregorianCalendar(2019, 9, 2);
+		Usuario firstUser = new Usuario(1234, "firstLogin", "firstEmail", "firstPassword", "defaultDescription01", defaultDate, true);
+		Usuario secondUser = new Usuario(1234, "secondLogin", "secondEmail", "secondPassword", "defaultDescription02", defaultDate, true);
+		Usuario thirdUser = new Usuario(1234, "thirdLogin", "thirdEmail", "thirdPassword", "defaultDescription03", defaultDate, true);
+		Usuario fourthUser = new Usuario(1234, "fourthLogin", "fourthEmail", "fourthPassword", "defaultDescription04", defaultDate, true);
 
-		Usuario firstUser = new Usuario(1234, "firstLogin", "firstEmail", "firstPassword", calendarFirstUser, true);
-		Usuario secondUser = new Usuario(5678, "secondLogin", "secondEmail", "secondPassword", calendarSecondUser, false);
+		Admin admin = new Admin(0000, "ADMIN", "adminEmail", "adminPassword", "adminDescription", defaultDate, true);
 
-		Perfil firstProfile = new Perfil('M', calendarFirstUser, "Catanduva", "Sao Paulo", "(17)3693-3696", "First profile description", "image.png");
-		Perfil secondProfile = new Perfil('F', calendarSecondUser, "Iracema", "Roraima", "(95)3636-3663", "Second profile description", "photo.jpg");
+		ArrayList<Usuario> membros = new ArrayList<Usuario>();
+		membros.add(secondUser);
+		membros.add(thirdUser);
 
-		System.out.println(firstUser.toString());
-		System.out.println(secondUser.toString());
+		GrupoPublico publicGroup = new GrupoPublico(01, "Grupo Publico", "Primeiro grupo publico", firstUser, membros, true, new GregorianCalendar());
 
-		System.out.println(firstProfile.toString());
-		System.out.println(secondProfile.toString());
+		ArrayList<Usuario> membros2 = new ArrayList<Usuario>();
+		membros2.add(thirdUser);
+		membros2.add(fourthUser);
 
-		// Lab02: criar Sala e Cartao
-		Sala firstSala = new Sala(scanner);
-		Sala secondSala = new Sala();
-		System.out.println(firstSala.toString());
-		System.out.println(secondSala.toString());
+		GrupoPrivado privateGroup = new GrupoPrivado(02, "Grupo Privado", "Primeiro grupo privado", secondUser, membros2, true, new GregorianCalendar());
 
-		Cartao firstCartao = new Cartao(scanner);
-		Cartao secondCartao = new Cartao();
-		System.out.println(firstCartao.toString());
-		System.out.println(secondCartao.toString());
-	
+		System.out.print(publicGroup.toString());
+		System.out.print(privateGroup.toString());
 
-		scanner.close();
+		// O dono de um grupo não pode ser modificado
+		// Codigo comentado pois acusava erro de compilacao
+		// try {
+		// 	publicGroup.setDono(thirdUser);
+		// } catch (Exception e) {
+		// 	System.out.print("Erro, atributo final nao pode ser modificado:\n");
+		// 	System.out.print(e + "\n");
+		// }
+
+		// Apenas um admin pode mudar o status de um grupo
+		// Codigo comentado pois acusava erro de compilacao, firstUser nao e Admin
+		// publicGroup.setStatus(firstUser, false);
+		admin.desabilitarGrupo(publicGroup);
+		System.out.print(publicGroup.toString());
+
+		// Apenas o dono de um grupo privado pode inserir ou remover usuários
+		privateGroup.adicionaMembro(thirdUser, firstUser);
+		privateGroup.adicionaMembro(secondUser, firstUser);
+		System.out.print(privateGroup.toString());
 	}
 }
