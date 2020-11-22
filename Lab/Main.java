@@ -81,8 +81,7 @@ public class Main {
 		privateGroup.removerPermissao(secondUser, fourthUser, permissao);
 		System.out.print(privateGroup.toString());
 
-		//
-		Permissoes test = new Permissoes("02","TEST");
-
+		// Parte comentada pois acusava erro de compilacao
+		// Permissoes test = new Permissoes("02","TEST");
 	}
 }
