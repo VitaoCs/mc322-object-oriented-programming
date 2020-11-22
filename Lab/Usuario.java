@@ -92,20 +92,23 @@ public class Usuario {
 	}
 
 	public void criarGrupo(boolean isPrivate, int id, String nome, String descricao, Usuario dono, boolean status, GregorianCalendar dataCriacao) {
-		ArrayList<Usuario> membros = new ArrayList<Usuario>();
-		membros.add(dono);
-
-		if (isPrivate) {
-			this.grupos.add(new GrupoPrivado(id, nome, descricao, dono, membros, status, dataCriacao));
+		if (this instanceof Admin) {
+			if (isPrivate) {
+				this.grupos.add(new GrupoPrivado(id, nome, descricao, dono, status, dataCriacao));
+			} else {
+				this.grupos.add(new GrupoPublico(id, nome, descricao, dono, status, dataCriacao));
+			}
 		} else {
-			this.grupos.add(new GrupoPublico(id, nome, descricao, dono, membros, status, dataCriacao));
+			System.out.print("Somente usuários Admin podem criar ou remover grupos");
 		}
 	}
 
 	public void removerGrupo(Grupo group) {
-		if (this.grupos.size() > 0) {
+		if (this.grupos.size() > 0 && this instanceof Admin) {
 			int index = this.grupos.indexOf(group);
 			this.grupos.remove(index);
+		} else {
+			System.out.print("Erro ao remover grupo. Somente usuários Admin podem criar ou remover grupos");
 		}
 	}
 

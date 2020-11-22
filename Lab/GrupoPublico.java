@@ -4,24 +4,61 @@ import java.util.GregorianCalendar;
 
 public class GrupoPublico extends Grupo {
 	
-	public GrupoPublico(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> membros, boolean status, GregorianCalendar dataCriacao) {
-		super(id, nome, descricao, dono, membros, status, dataCriacao);
+	public GrupoPublico(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> permissaoAdicionar, ArrayList<Usuario> permissaoRemover, ArrayList<Usuario> permissaoAlterar, ArrayList<Usuario> permissaoVisualizar, boolean status, GregorianCalendar dataCriacao) {
+		super(id, nome, descricao, dono, permissaoAdicionar, permissaoRemover, permissaoAlterar, permissaoVisualizar, status, dataCriacao);
 	}
 
-	public void adicionaMembro(Usuario novoMembro) {
+	public GrupoPublico(int id, String nome, String descricao, Usuario dono, boolean status, GregorianCalendar dataCriacao) {
+		super(id, nome, descricao, dono, status, dataCriacao);
+	}
+
+	public GrupoPublico(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> membros, boolean status, GregorianCalendar dataCriacao) {
+		super(id, nome, descricao, dono, membros, status, dataCriacao, false);
+	}
+
+	public void adicionaMembro(Usuario dono, Usuario novoMembro, Permissoes permissao) {
 		if (getStatus()) {
-			ArrayList<Usuario> membrosAtuais = getMembros();
-			membrosAtuais.add(novoMembro);
-			setMembros(membrosAtuais);
+			for (Permissoes permissoes : Permissoes.values()) {
+				ArrayList<Usuario> usuarios = getUsuariosPermissoes(permissoes);
+				usuarios.add(novoMembro);
+				setUsuariosPermissoes(usuarios, permissoes);
+			}
 		}
 	}
 
-	public void removeMembro(Usuario membro) {
+	public void removeMembro(Usuario dono, Usuario membro) {
 		if (getStatus()) {
-			ArrayList<Usuario> membrosAtuais = getMembros();
-			int index = membrosAtuais.indexOf(membro);
-			membrosAtuais.remove(index);
-			setMembros(membrosAtuais);
+			for (Permissoes permissao : Permissoes.values()) {
+				ArrayList<Usuario> usuarios = getUsuariosPermissoes(permissao);
+				int index = usuarios.indexOf(membro);
+				if (index >= 0) {
+					usuarios.remove(index);
+					setUsuariosPermissoes(usuarios, permissao);
+				}
+			}
+		}
+	}
+
+	public void adicionarPermissao(Usuario dono, Usuario membro, ArrayList<Permissoes> permissoesUsuario) {
+		if (getStatus()) {
+			for (Permissoes permissao : permissoesUsuario) {
+				ArrayList<Usuario> usuarios = getUsuariosPermissoes(permissao);
+				usuarios.add(membro);
+				setUsuariosPermissoes(usuarios, permissao);
+			}
+		}
+	}
+
+	public void removerPermissao(Usuario dono, Usuario membro, ArrayList<Permissoes> permissoesUsuario) {
+		if (getStatus()) {
+			for (Permissoes permissao : permissoesUsuario) {
+				ArrayList<Usuario> usuarios = getUsuariosPermissoes(permissao);
+				int index = usuarios.indexOf(membro);
+				if (index >= 0) {
+					usuarios.remove(index);
+					setUsuariosPermissoes(usuarios, permissao);
+				}
+			}
 		}
 	}
 
@@ -32,17 +69,7 @@ public class GrupoPublico extends Grupo {
 		out = out + " dono: " + getDonoLogin() + "\n";
 		out = out + " status: " + getStatus() + "\n";
 		out = out + " data criacao: " + getDataCriacao().getTime() + "\n";
-
-		int numberMembers = getNumeroMembros();
-		if (numberMembers > 0) {
-			out = out + " membros: " + numberMembers;
-			out = numberMembers > 1 ? out + " , sendo eles: \n" : out + " , sendo ele: \n";
-			out = out + "*****************************\n";
-			for (Usuario user : getMembros()) {
-				out = out + user.toString();
-			}
-			out = out + "*****************************\n";
-		}
+		out = out + usuariosToString();
 		return out ;
 	}
 }

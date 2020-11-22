@@ -7,16 +7,83 @@ public class Grupo {
     private String nome;
     private String descricao;
 	private final Usuario dono;
-	private ArrayList<Usuario> membros;
+	private ArrayList<Usuario> permissaoAdicionar;
+	private ArrayList<Usuario> permissaoRemover;
+	private ArrayList<Usuario> permissaoAlterar;
+	private ArrayList<Usuario> permissaoVisualizar;
     private boolean status;
 	private GregorianCalendar dataCriacao;
 	
-	public Grupo(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> membros, boolean status, GregorianCalendar dataCriacao) {
+	public Grupo(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> permissaoAdicionar, ArrayList<Usuario> permissaoRemover, ArrayList<Usuario> permissaoAlterar, ArrayList<Usuario> permissaoVisualizar, boolean status, GregorianCalendar dataCriacao) {
 		this.id = id;
 		this.nome = nome; 
 		this.descricao = descricao;
 		this.dono = dono;
-		this.membros = membros;
+		this.permissaoAdicionar = permissaoAdicionar;
+		this.permissaoRemover = permissaoRemover;
+		this.permissaoAlterar = permissaoAlterar;
+		this.permissaoVisualizar = permissaoVisualizar;
+		this.status = status;
+		this.dataCriacao = dataCriacao;
+	}
+
+	public Grupo(int id, String nome, String descricao, Usuario dono, boolean status, GregorianCalendar dataCriacao) {
+		ArrayList<Usuario> permissaoAdicionar = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoRemover = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoAlterar = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
+
+		permissaoAdicionar.add(dono);
+		permissaoRemover.add(dono);
+		permissaoAlterar.add(dono);
+		permissaoVisualizar.add(dono);
+
+		this.id = id;
+		this.nome = nome; 
+		this.descricao = descricao;
+		this.dono = dono;
+		this.permissaoAdicionar = permissaoAdicionar;
+		this.permissaoRemover = permissaoRemover;
+		this.permissaoAlterar = permissaoAlterar;
+		this.permissaoVisualizar = permissaoVisualizar;
+		this.status = status;
+		this.dataCriacao = dataCriacao;
+	}
+
+	public Grupo(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> membros, boolean status, GregorianCalendar dataCriacao, boolean isPrivate) {
+		ArrayList<Usuario> permissaoAdicionar = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoRemover = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoAlterar = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
+
+		if (isPrivate) {
+			permissaoAdicionar.add(dono);
+			permissaoRemover.add(dono);
+			permissaoAlterar.add(dono);
+			permissaoVisualizar.add(dono);
+
+			for (Usuario user : membros) {
+				permissaoVisualizar.add(user);
+			}
+		} else {
+			membros.add(dono);
+
+			for (Usuario user : membros) {
+				permissaoAdicionar.add(user);
+				permissaoRemover.add(user);
+				permissaoAlterar.add(user);
+				permissaoVisualizar.add(user);
+			}
+		}
+
+		this.id = id;
+		this.nome = nome; 
+		this.descricao = descricao;
+		this.dono = dono;
+		this.permissaoAdicionar = permissaoAdicionar;
+		this.permissaoRemover = permissaoRemover;
+		this.permissaoAlterar = permissaoAlterar;
+		this.permissaoVisualizar = permissaoVisualizar;
 		this.status = status;
 		this.dataCriacao = dataCriacao;
 	}
@@ -49,30 +116,80 @@ public class Grupo {
 		return this.dono;
 	}
 
-	// Funcao apenas para o teste do lab
-	// Nao faz sentido ja que o dono e "final"
-	// public Usuario setDono(Usuario dono) {
-	// 	this.dono = dono;
-	// }
-
 	public String getDonoLogin() {
         return dono.getLogin();
 	}
 	
 	public int getDonoId() {
         return dono.getId();
-    }
-
-	public ArrayList<Usuario> getMembros() {
-		return this.membros;
 	}
 
-	public void setMembros(ArrayList<Usuario> membros) {
-		this.membros = membros;
+	public ArrayList<Usuario> getUsuariosPermissoes(Permissoes permissao) {
+		switch (permissao) {
+			case ADICIONAR_MEMBROS:
+				return this.permissaoAdicionar;
+			case REMOVER_MEMBROS:
+				return this.permissaoRemover;
+			case ALTERAR_PERMISSAO:
+				return this.permissaoAlterar;
+			case VISUALIZAR_INFO:
+				return this.permissaoVisualizar;
+			default:
+				System.out.print("Tipo de permissao errada!! \n");
+				return this.permissaoVisualizar;
+		}
 	}
 
-	public int getNumeroMembros() {
-		return this.membros.size();
+	public void setUsuariosPermissoes(ArrayList<Usuario> usuarios, Permissoes permissao) {
+		switch (permissao) {
+			case ADICIONAR_MEMBROS:
+				this.permissaoAdicionar = usuarios;
+				break;
+			case REMOVER_MEMBROS:
+				this.permissaoRemover = usuarios;
+				break;
+			case ALTERAR_PERMISSAO:
+				this.permissaoAlterar = usuarios;
+				break;
+			case VISUALIZAR_INFO:
+				this.permissaoVisualizar = usuarios;
+				break;
+			default:
+				System.out.print("Tipo de permissao errada!! \n");
+				break;
+		}
+	}
+
+	public ArrayList<Usuario> getPermissaoAdicionar() {
+		return this.permissaoAdicionar;
+	}
+
+	public void setPermissaoAdicionar(ArrayList<Usuario> permissaoAdicionar) {
+		this.permissaoAdicionar = permissaoAdicionar;
+	}
+
+	public ArrayList<Usuario> getPermissaoRemover() {
+		return this.permissaoRemover;
+	}
+
+	public void setPermissaoRemover(ArrayList<Usuario> permissaoRemover) {
+		this.permissaoRemover = permissaoRemover;
+	}
+
+	public ArrayList<Usuario> getPermissaoAlterar() {
+		return this.permissaoAlterar;
+	}
+
+	public void setPermissaoAlterar(ArrayList<Usuario> permissaoAlterar) {
+		this.permissaoAlterar = permissaoAlterar;
+	}
+
+	public ArrayList<Usuario> getPermissaoVisualizar() {
+		return this.permissaoVisualizar;
+	}
+
+	public void setPermissaoVisualizar(ArrayList<Usuario> permissaoVisualizar) {
+		this.permissaoVisualizar = permissaoVisualizar;
 	}
 
 	public boolean getStatus() {
@@ -91,6 +208,37 @@ public class Grupo {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public ArrayList<Permissoes> getUsuarioPermissao(Usuario usuario) {
+		ArrayList<Integer> index = new ArrayList<Integer>();
+		ArrayList<Permissoes> permissoesUsuario = new ArrayList<Permissoes>();
+
+		index.add(permissaoAdicionar.indexOf(usuario));
+		index.add(permissaoRemover.indexOf(usuario));
+		index.add(permissaoAlterar.indexOf(usuario));
+		index.add(permissaoVisualizar.indexOf(usuario));
+		for (int i = 0; i < index.size(); i++){
+			if (index.get(i) >= 0) {
+				permissoesUsuario.add(Permissoes.values()[i]);
+			}
+		}
+
+		return permissoesUsuario;
+	}
+
+	public String usuariosToString() {
+		String out = "";
+		for (Permissoes permissao : Permissoes.values()) {
+			out = out + "*****************************\n";
+			out = out + " Usuarios com permissao: " + permissao + "\n";
+			ArrayList<Usuario> usuarios = getUsuariosPermissoes(permissao);
+			for (Usuario user : usuarios) {
+				out = out + user.toString();
+			}
+		}
+		out = out + "*****************************\n";
+		return out;
+	}
+
     @Override
     public String toString(){
 		String out = "Grupo: " + getNome() + " (id: " + getId() + " )\n";
@@ -98,17 +246,7 @@ public class Grupo {
 		out = out + " dono: " + getDonoLogin() + "\n";
 		out = out + " status: " + getStatus() + "\n";
 		out = out + " data criacao: " + getDataCriacao().getTime() + "\n";
-
-		int numberMembers = getNumeroMembros();
-		if (numberMembers > 0) {
-			out = out + " membros: " + numberMembers;
-			out = numberMembers > 1 ? out + " , sendo eles: \n" : out + " , sendo ele: \n";
-			out = out + "*****************************\n";
-			for (Usuario user : this.membros) {
-				out = out + user.toString();
-			}
-			out = out + "*****************************\n";
-		}
-		return out ;
+		out = out + usuariosToString();
+		return out;
 	}
 }

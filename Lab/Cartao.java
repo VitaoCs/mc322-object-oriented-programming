@@ -10,8 +10,9 @@ public class Cartao {
     private Usuario dono;
     private boolean invitationOnly;
     private GregorianCalendar dataCriacao;
+    private Labels label;
 
-    public Cartao(int numeroCartoes, int id, int visibilidade, String nome, Usuario dono, boolean invitationOnly, GregorianCalendar dataCriacao) {
+    public Cartao(int numeroCartoes, int id, int visibilidade, String nome, Usuario dono, boolean invitationOnly, GregorianCalendar dataCriacao, Labels label) {
 		this.numeroCartoes = ++numeroCartoes;
         this.id = this.numeroCartoes;
         this.visibilidade = visibilidade;
@@ -19,6 +20,7 @@ public class Cartao {
         this.dono = dono;
         this.invitationOnly = invitationOnly;
         this.dataCriacao = dataCriacao;
+        this.label = label;
     }
 
     public Cartao(Scanner scanner) {
@@ -49,6 +51,7 @@ public class Cartao {
         this.dono = this.createDefaultDono();
         this.invitationOnly = invitationOnlyCartao;
         this.dataCriacao = new GregorianCalendar(anoData, mesData, diaData);
+        this.label = Labels.TO_DO;
     }
     
     public Cartao() {
@@ -59,6 +62,7 @@ public class Cartao {
         this.dono = this.createDefaultDono();
         this.invitationOnly = true;
         this.dataCriacao = new GregorianCalendar();
+        this.label = Labels.TO_DO;
 	}
 
 	public static int getNumeroCartoes() {

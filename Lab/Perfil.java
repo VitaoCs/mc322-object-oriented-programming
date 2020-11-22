@@ -1,15 +1,15 @@
 import java.util.GregorianCalendar;
 
 public class Perfil {
-    private char sexo;
+    private Sexo sexo;
 	private GregorianCalendar dataNascimento;
 	private String cidade;
-	private String estado;
+	private Estado estado;
 	private String telefone;
 	private String descricao;
 	private String foto;
 
-	public Perfil(char sexo, GregorianCalendar dataNascimento, String cidade, String estado, String telefone, String descricao, String foto) {
+	public Perfil(Sexo sexo, GregorianCalendar dataNascimento, String cidade, Estado estado, String telefone, String descricao, String foto) {
 		this.sexo = sexo;
 		this.dataNascimento = dataNascimento; 
 		this.cidade = cidade;
@@ -19,11 +19,11 @@ public class Perfil {
 		this.foto = foto;
 	}
 
-	public char getSexo() {
-		return sexo;
+	public String getSexo() {
+		return sexo.getAtributos();
 	}
 
-	public void setSexo(char sexo) {
+	public void setSexo(Sexo sexo) {
 		this.sexo = sexo;
 	}
 
@@ -44,10 +44,10 @@ public class Perfil {
 	}
 
 	public String getEstado() {
-		return estado;
+		return estado.getAtributos();
 	}
 	
-	public void setEstado(String estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 
@@ -77,7 +77,7 @@ public class Perfil {
 
 	@Override
 	public String toString(){
-		String out = "sexo: " + getSexo() + "\n";
+		String out = " sexo: " + getSexo() + "\n";
 		out = out + " data de nascimento: " + getDataNascimento().getTime() + "\n";
 		out = out + " cidade: " + getCidade() + "\n";
 		out = out + " estado: " + getEstado() + "\n";
