@@ -4,17 +4,17 @@ import java.util.GregorianCalendar;
 
 public class Usuario {
 	static private int numeroUsuarios = 0;
-    private int id;
-    private String login;
-    private String email;
+	private int id;
+	private String login;
+	private String email;
 	private String senha;
-    private GregorianCalendar dataAtivacao;
+	private GregorianCalendar dataAtivacao;
 	private boolean status;
 	// private ArrayList<Grupo> grupos;
 
-    public Usuario(String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status) {
+	public Usuario(String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status) {
 		this.numeroUsuarios = ++numeroUsuarios;
-        this.id = this.numeroUsuarios;
+		this.id = this.numeroUsuarios;
 		this.login = login; 
 		this.email = email;
 		this.senha = senha;
@@ -25,7 +25,7 @@ public class Usuario {
 
 	public Usuario(String login, String email, String senha, boolean status) {
 		this.numeroUsuarios = ++numeroUsuarios;
-        this.id = this.numeroUsuarios;
+		this.id = this.numeroUsuarios;
 		this.login = login; 
 		this.email = email;
 		this.senha = senha;
@@ -36,7 +36,7 @@ public class Usuario {
 
 	public Usuario(String login, String email, String senha) {
 		this.numeroUsuarios = ++numeroUsuarios;
-        this.id = this.numeroUsuarios;
+		this.id = this.numeroUsuarios;
 		this.login = login; 
 		this.email = email;
 		this.senha = senha;
@@ -46,20 +46,20 @@ public class Usuario {
 	}
 
 	public Usuario(Scanner scanner) {
-        System.out.println("Preencha os dados a seguir para a criacao do usuario");
+		System.out.println("Preencha os dados a seguir para a criacao do usuario");
 		System.out.print("Login: ");
-        String login = scanner.next();
+		String login = scanner.next();
 
-        System.out.print("Email: ");
-        String email = scanner.next();   
+		System.out.print("Email: ");
+		String email = scanner.next();   
 
-        System.out.print("Senha: ");
-        String senha = scanner.next();
+		System.out.print("Senha: ");
+		String senha = scanner.next();
 
-        System.out.println("\nUsuario criado!\n");
+		System.out.println("\nUsuario criado!\n");
 
-        this.numeroUsuarios = ++numeroUsuarios;
-        this.id = this.numeroUsuarios;
+		this.numeroUsuarios = ++numeroUsuarios;
+		this.id = this.numeroUsuarios;
 		this.login = login; 
 		this.email = email;
 		this.senha = senha;
@@ -68,25 +68,25 @@ public class Usuario {
 		// this.grupos = new ArrayList<Grupo>();
 
 		System.out.println(this.toString());
-    }
+	}
 	
 	public static int getNumeroUsuarios() {
 		return numeroUsuarios;
 	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getLogin() {
-        return login;
-    }
-    
-    public void setLogin(String login) {
-        this.login = login;
-    }
+	public String getLogin() {
+		return login;
+	}
+	
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-    public String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 	
@@ -131,8 +131,8 @@ public class Usuario {
 	// 	return this.grupos.get(index);
 	// }
 
-    @Override
-    public String toString(){
+	@Override
+	public String toString(){
 		String out = getLogin() + " (id: " + getId() + " )\n";
 		out = out + " email: " + getEmail() + "\n";
 		out = out + " senha: " + getSenha() + "\n";
