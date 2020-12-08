@@ -21,13 +21,13 @@ public class WhatsApp {
 	// public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 	// public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	// public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
-	private static final String[] NOMES_USUARIO = new String[] {"Maria", "Joao", "Jose", "Clara", "Julia", "Carla", "Ana", "Camila"};
-	private static final String[] EMAIL_USUARIO = new String[] {"@gmail.com", "@hotmail.com", "@outlook.com"};
+	private static final String[] NOMES_USUARIO = new String[] { "Maria", "Joao", "Jose", "Clara", "Julia", "Carla",
+			"Ana", "Camila" };
+	private static final String[] EMAIL_USUARIO = new String[] { "@gmail.com", "@hotmail.com", "@outlook.com" };
 	private final String versao;
 	private final int usuariosIniciais;
 	private final int gruposPublicosIniciais;
 	private ArrayList<Usuario> usuarios;
-
 	// private static ArrayList<GrupoPublico> gruposPublicos;
 	// private static ArrayList<GrupoPrivado> gruposPrivados;
 
@@ -52,7 +52,7 @@ public class WhatsApp {
 		this.usuarios.add(usuario);
 	}
 
-	private void criarBancoDeUsuarios() {	
+	private void criarBancoDeUsuarios() {
 		for (int i = 0; i < usuariosIniciais; i++) {
 			int randomNumber = getNumeroAleatorioNoIntervalo(0, 2);
 			String login = NOMES_USUARIO[i];
@@ -71,16 +71,121 @@ public class WhatsApp {
 		}
 	}
 
-	private void limparTela() {  
-		System.out.print("\033[H\033[2J");  
-		System.out.flush();  
+	private void limparTela() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
 	}
 
 	private int getNumeroAleatorioNoIntervalo(int min, int max) {
-		int value = (int)(Math.random()*((max-min)+1))+min;
-		System.out.println("**********************************" + value);
+		int value = (int) (Math.random() * ((max - min) + 1)) + min;
 		return value;
+	}
 
+	private void mostrarGrupos(Usuario user) {
+		System.out.println("******************************");
+		ArrayList<Grupo> grupos = user.getTodosGrupos();
+		for (Grupo grupo : grupos) {
+			System.out.println(grupo.toString());
+			System.out.println("******************************");
+		}
+	}
+
+	private void mostrarUltimasMensagens(GrupoPublico grupo) {
+		int maxMsg = 5;
+		System.out.println("******************************");
+		ArrayList<Mensagem> mensagens = grupo.getMensagens();
+		for (Mensagem mensagem : mensagens) {
+			System.out.println(grupo.toString());
+			System.out.println("******************************");
+			maxMsg--;
+			if (maxMsg <= 0)
+				break;
+		}
+	}
+
+	private void mostrarUltimasMensagens(GrupoPrivado grupo) {
+		int maxMsg = 5;
+		System.out.println("******************************");
+		ArrayList<Mensagem> mensagens = grupo.getMensagens();
+		for (Mensagem mensagem : mensagens) {
+			System.out.println(grupo.toString());
+			System.out.println("******************************");
+			maxMsg--;
+			if (maxMsg <= 0)
+				break;
+		}
+	}
+
+	private String tratarMensagem(Scanner scanner, Usuario user, GrupoPrivado grupo) {
+		System.out.println("Digite sua mensagem: ");
+		try {
+			String text = scanner.next();
+			if (text = "") {
+				telaGrupo(scanner, user, grupo);
+			} else {
+				ArrayList<Mensagem> mensagens = grupo.getMensagens();
+				mensagens.add(new Mensagem(text, user));
+				grupo.setMensagens(mensagens);
+				mostrarUltimasMensagens(grupo);
+			}
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			telaGrupo(scanner, user, grupo);
+		}
+	}
+
+	private String tratarMensagem(Scanner scanner, Usuario user, GrupoPublico grupo) {
+		System.out.println("Digite sua mensagem: ");
+		try {
+			String text = scanner.next();
+			if (text = "") {
+				telaGrupo(scanner, user, grupo);
+			} else {
+				ArrayList<Mensagem> mensagens = grupo.getMensagens();
+				mensagens.add(new Mensagem(text, user));
+				grupo.setMensagens(mensagens);
+				mostrarUltimasMensagens(grupo);
+			}
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			telaGrupo(scanner, user, grupo);
+		}
+	}
+
+	private GrupoPublico getGrupoPorId(ArrayList<GrupoPublico> grupos, int id) {
+		for (Grupo grupo : grupos) {
+			if (grupo.getId().equals(id)) {
+				return grupo;
+			}
+		}
+		return null;
+	}
+
+	private GrupoPrivado getGrupoPorId(ArrayList<GrupoPrivado> grupos, int id) {
+		for (Grupo grupo : grupos) {
+			if (grupo.getId().equals(id)) {
+				return grupo;
+			}
+		}
+		return null;
+	}
+
+	private boolean isGrupoPrivado(int id) {
+		for (Grupo grupo : gruposPrivados) {
+			if (grupo.getId().equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isGrupoPublico(int id) {
+		for (Grupo grupo : gruposPublicos) {
+			if (grupo.getId().equals(id)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void telaCriarUsuario(Scanner scanner) {
@@ -97,10 +202,158 @@ public class WhatsApp {
 			System.out.print(".");
 		}
 		System.out.print("\n");
+		menuPrincipal(scanner, user);
 	}
 
-	private void menuPrincipal(Scanner scanner) {
-		System.out.println("Esse é o menu da plataforma");
+	private void telaAcessarGrupos(Scanner scanner, Usuario user) {
+		limparTela();
+		int option = 0;
+		System.out.println("Selecione o id do grupo que quer mandar a mensagem:");
+		mostrarGrupos(user);
+		try {
+			option = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+
+		if (isGrupoPublico(option)) {
+			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
+			telaGrupo(scanner, user, grupo);
+		} else if (isGrupoPublico(option)) {
+			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
+			telaGrupo(scanner, user, grupo);
+		} else {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+	}
+
+	private void telaGrupo(Scanner scanner, Usuario user, GrupoPrivado grupo) {
+		limparTela();
+		int option = 0;
+		System.out.println(ANSI_GREEN_BACKGROUND + "Grupo Privado" + ANSI_RESET);
+		System.out.println(grupo.toString());
+		mostrarUltimasMensagens(grupo);
+		do {
+			System.out.println("[1] Mandar uma mensagem");
+			System.out.println("[2] Sair");
+			System.out.print("Insira uma opcao: ");
+			try {
+				option = scanner.nextInt();
+			} catch (Exception e) {
+				System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+				telaAcessarGrupos(scanner, user);
+				break;
+			}
+			switch (option) {
+				case 1:
+					tratarMensagem(scanner, user, grupo);
+					break;
+				case 2:
+					System.out.println("-----------------------------");
+					telaAcessarGrupos(scanner, user);
+					break;
+				default:
+					limparTela();
+					System.out.println("Opcao invalida");
+			}
+
+		} while (option != 3);
+	}
+
+	private void telaGrupo(Scanner scanner, Usuario user, GrupoPublico grupo) {
+		limparTela();
+		int option = 0;
+		System.out.println(ANSI_GREEN_BACKGROUND + "Grupo Privado" + ANSI_RESET);
+		System.out.println(grupo.toString());
+		mostrarUltimasMensagens(grupo);
+		do {
+			System.out.println("[1] Mandar uma mensagem");
+			System.out.println("[2] Sair");
+			System.out.print("Insira uma opcao: ");
+			try {
+				option = scanner.nextInt();
+			} catch (Exception e) {
+				System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+				telaMandarMsg(scanner, user);
+				break;
+			}
+			switch (option) {
+				case 1:
+					tratarMensagem(scanner, user, grupo);
+					break;
+				case 2:
+					System.out.println("-----------------------------");
+					telaMandarMsg(scanner, user);
+					break;
+				default:
+					limparTela();
+					System.out.println("Opcao invalida");
+			}
+
+		} while (option != 3);
+	}
+
+	private void menuPrincipal(Scanner scanner, Usuario user) {
+		limparTela();
+		int option = 0;
+		System.out.println(ANSI_GREEN_BACKGROUND + "Bem vindx ao Menu Principal\n" + ANSI_RESET);
+		System.out.println("Seus grupos:");
+		mostrarGrupos(user);
+
+		do {
+			System.out.println("[1] Acessar um grupo");
+			// System.out.println("[2] Deletar mensagem do grupo");
+			System.out.println("[3] Criar um grupo");
+			System.out.println("[4] Sair do grupo");
+			System.out.println("[5] Adicionar admin no grupo");
+			System.out.println("[6] Remover admin do grupo");
+			System.out.println("[7] Deletar um grupo");
+			System.out.println("[8] Adicionar usuario no grupo");
+			System.out.println("[9] Remover usuario do grupo");
+			System.out.println("[10] Pesquisar um grupo");
+			System.out.println("[11] Sair");
+			System.out.print("Insira uma opcao: ");
+			try {
+				option = scanner.nextInt();
+			} catch (Exception e) {
+				System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+				break;
+			}
+			switch (option) {
+				case 1:
+					telaAcessarGrupos(scanner, user);
+					break;
+				case 2:
+					break;
+				case 3:
+					telaCriarGrupo(scanner, user); // TO DO
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					break;
+				case 8:
+					break;
+				case 9:
+					break;
+				case 10:
+					break;
+				case 11:
+					System.out.println("-----------------------------");
+					menuInicial(scanner);
+					break;
+				default:
+					limparTela();
+					System.out.println("Opcao invalida");
+			}
+
+		} while (option != 11);
 	}
 
 	private void menuInicial(Scanner scanner) {
@@ -120,7 +373,6 @@ public class WhatsApp {
 			switch (option) {
 				case 1:
 					telaCriarUsuario(scanner);
-					menuPrincipal(scanner);
 					break;
 				case 2:
 					System.out.println("Tela Admin");
@@ -132,9 +384,9 @@ public class WhatsApp {
 					limparTela();
 					System.out.println("Opcao invalida");
 			}
-			
+
 		} while (option != 3);
-		
+
 	}
 
 	public void init(Scanner scanner) {
