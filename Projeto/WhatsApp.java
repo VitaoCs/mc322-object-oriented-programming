@@ -52,7 +52,6 @@ public class WhatsApp {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getId() == id) return usuario;
 		}
-
 		return null;
 	}
 
@@ -372,6 +371,118 @@ public class WhatsApp {
 		} while (option != 3);
 	}
 
+	private void telaSairDoGrupo(Scanner scanner, Usuario user) {
+		limparTela();
+		int option = 0;
+		System.out.println("Selecione o id do grupo que quer sair:");
+		mostrarGrupos(user);
+		try {
+			option = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+		
+		if (isGrupoPublico(option)) {
+			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
+			user.sairDoGrupo(grupo);
+		} else if (isGrupoPrivado(option)) {
+			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
+			user.sairDoGrupo(grupo);
+		}
+	}
+
+	private void telaDeletarGrupo(Scanner scanner, Usuario user) {
+		limparTela();
+		int option = 0;
+		System.out.println("Selecione o id do grupo que quer deletar:");
+		mostrarGrupos(user);
+		try {
+			option = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+		
+		if (isGrupoPublico(option)) {
+			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
+			user.deletarGrupo(grupo);
+			int index = gruposPublicos.indexOf(grupo);
+			gruposPublicos.remove(index);
+		} else if (isGrupoPrivado(option)) {
+			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
+			user.deletarGrupo(grupo);
+			int index = gruposPrivados.indexOf(grupo);
+			gruposPrivados.remove(index);
+		}
+	}
+
+	private void telaAdicionarUsuario(Scanner scanner, Usuario user) {
+		limparTela();
+		int optionGrupo = 0;
+		int optionUsuario = 0;
+		System.out.println("Selecione o id do grupo que quer adicionar o usuario:");
+		mostrarGrupos(user);
+		try {
+			optionGrupo = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+
+		System.out.println("Selecione o id do usuario que quer adicionar ao grupo:");
+		imprimirUsuarios();
+		try {
+			optionUsuario = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+
+		Usuario usuario = getUsuarioPorId(optionUsuario);
+
+		if (isGrupoPublico(optionGrupo)) {
+			GrupoPublico grupo = getGrupoPorId(gruposPublicos, optionGrupo);
+			user.adicionarUsuario(usuario, grupo);
+		} else if (isGrupoPrivado(optionGrupo)) {
+			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, optionGrupo);
+			user.adicionarUsuario(usuario, grupo);
+		}
+	}
+
+	private void telaRemoverUsuario(Scanner scanner, Usuario user) {
+		limparTela();
+		int optionGrupo = 0;
+		int optionUsuario = 0;
+		System.out.println("Selecione o id do grupo que quer remover o usuario:");
+		mostrarGrupos(user);
+		try {
+			optionGrupo = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+
+		System.out.println("Selecione o id do usuario que quer remover do grupo:");
+		imprimirUsuarios();
+		try {
+			optionUsuario = scanner.nextInt();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			menuPrincipal(scanner, user);
+		}
+
+		Usuario usuario = getUsuarioPorId(optionUsuario);
+
+		if (isGrupoPublico(optionGrupo)) {
+			GrupoPublico grupo = getGrupoPorId(gruposPublicos, optionGrupo);
+			grupo.removerUsuario(usuario);
+		} else if (isGrupoPrivado(optionGrupo)) {
+			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, optionGrupo);
+			grupo.removerUsuario(usuario);
+		}
+	}
+
 	private void menuPrincipal(Scanner scanner, Usuario user) {
 		limparTela();
 		int option = 0;
@@ -415,10 +526,13 @@ public class WhatsApp {
 				case 6:
 					break;
 				case 7:
+					telaDeletarGrupo(scanner, user);
 					break;
 				case 8:
+					telaAdicionarUsuario(scanner, user);
 					break;
 				case 9:
+					telaRemoverUsuario(scanner, user);
 					break;
 				case 10:
 					break;
