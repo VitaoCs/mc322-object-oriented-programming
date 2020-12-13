@@ -48,6 +48,14 @@ public class WhatsApp {
 		return this.usuarios;
 	}
 
+	private Usuario getUsuarioPorId(int id) {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getId() == id) return usuario;
+		}
+
+		return null;
+	}
+
 	private void addUsuario(Usuario usuario) {
 		this.usuarios.add(usuario);
 	}
@@ -259,7 +267,7 @@ public class WhatsApp {
 					System.out.println("Opcao invalida");
 			}
 
-		} while (option != 3);
+		} while (option != 2);
 	}
 
 	private void telaGrupo(Scanner scanner, Usuario user, GrupoPublico grupo) {
@@ -292,6 +300,75 @@ public class WhatsApp {
 					System.out.println("Opcao invalida");
 			}
 
+		} while (option != 2);
+	}
+
+	private ArrayList<Usuario> addUsuariosNoGrupo(Scanner scanner) {
+		String option = 0;
+		System.out.println("Digite o id dos usuarios que deseja adicionar ao grupo: [idA,idB,etc] ");
+		try {
+			option = scanner.next();
+		} catch (Exception e) {
+			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+			return null;
+		}
+
+		String[] listId = option.split(",");
+		ArrayList<Usuario> users = new ArrayList<Usuario>();
+		for (String id : listId) {
+			Usuario user = getUsuarioPorId( Integer.parseInt(id));
+			
+			if (user != null) users.add(user);
+		}
+
+		return users;
+	}
+
+	private void tratarCriarGrupo(Scanner scanner, Usuario user, boolean isPrivate) {
+		ArrayList<Usuario> users = addUsuariosNoGrupo(scanner);
+		if (isPrivate) {
+			GrupoPrivado grupo = new GrupoPrivado(scanner, user);
+			gruposPrivados.add(grupo);
+			menuPrincipal(scanner, user);
+		} else {
+			GrupoPublico grupo = new GrupoPublico(scanner, user);
+			gruposPublicos.add(grupo);
+			menuPrincipal(scanner, user);
+		}
+	}
+
+	private void telaCriarGrupo(Scanner scanner, Usuario user) {
+		limparTela();
+		int option = 0;
+		System.out.println(ANSI_GREEN_BACKGROUND + "Criar grupo" + ANSI_RESET);
+		do {
+			System.out.println("[1] Grupo publico");
+			System.out.println("[2] Grupo privado");
+			System.out.println("[3] Sair");
+			System.out.print("Insira uma opcao: ");
+			try {
+				option = scanner.nextInt();
+			} catch (Exception e) {
+				System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
+				menuPrincipal(scanner, user);
+				break;
+			}
+			switch (option) {
+				case 1:
+					tratarCriarGrupo(scanner, user, false);
+					break;
+				case 2:
+					tratarCriarGrupo(scanner, user, true);
+					break;
+				case 3:
+					System.out.println("-----------------------------");
+					menuPrincipal(scanner, user);
+					break;
+				default:
+					limparTela();
+					System.out.println("Opcao invalida");
+			}
+
 		} while (option != 3);
 	}
 
@@ -307,12 +384,12 @@ public class WhatsApp {
 			// System.out.println("[2] Deletar mensagem do grupo");
 			System.out.println("[3] Criar um grupo");
 			System.out.println("[4] Sair do grupo");
-			System.out.println("[5] Adicionar admin no grupo");
-			System.out.println("[6] Remover admin do grupo");
+			// System.out.println("[5] Adicionar admin no grupo");
+			// System.out.println("[6] Remover admin do grupo");
 			System.out.println("[7] Deletar um grupo");
 			System.out.println("[8] Adicionar usuario no grupo");
 			System.out.println("[9] Remover usuario do grupo");
-			System.out.println("[10] Pesquisar um grupo");
+			// System.out.println("[10] Pesquisar um grupo");
 			System.out.println("[11] Sair");
 			System.out.print("Insira uma opcao: ");
 			try {
@@ -328,9 +405,10 @@ public class WhatsApp {
 				case 2:
 					break;
 				case 3:
-					telaCriarGrupo(scanner, user); // TO DO
+					telaCriarGrupo(scanner, user);
 					break;
 				case 4:
+					telaSairDoGrupo(scanner, user);
 					break;
 				case 5:
 					break;
