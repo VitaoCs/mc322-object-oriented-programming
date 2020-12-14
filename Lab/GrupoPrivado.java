@@ -23,7 +23,7 @@ public class GrupoPrivado extends Grupo {
 			membrosAtuais.add(novoMembro);
 			setPermissaoVisualizar(membrosAtuais);
 		} else {
-			System.out.print("Grupo desativado ou usu√°rio n√£o √© o dono!! \n");
+			System.out.print("Grupo desativado ou usu·rio n„o È o dono!!! \n");
 		}
 	}
 

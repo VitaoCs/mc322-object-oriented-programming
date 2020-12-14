@@ -3,28 +3,39 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class Grupo {
-    private int id;
-    private String nome;
-    private String descricao;
-	private final Usuario dono;
+    protected int id;
+    protected String nome;
+    protected String descricao;
+	protected final Usuario dono;
+    protected boolean status;
+	protected GregorianCalendar dataCriacao;
+	protected ArrayList<Usuario> usuarios;
+	protected ArrayList<Usuario> admin;
+	protected ArrayList<GrupoPublico> gruposPublicos;
+	protected ArrayList<GrupoPrivado> gruposPrivados;
 	private ArrayList<Usuario> permissaoAdicionar;
 	private ArrayList<Usuario> permissaoRemover;
 	private ArrayList<Usuario> permissaoAlterar;
 	private ArrayList<Usuario> permissaoVisualizar;
-    private boolean status;
-	private GregorianCalendar dataCriacao;
+	
 	
 	public Grupo(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> permissaoAdicionar, ArrayList<Usuario> permissaoRemover, ArrayList<Usuario> permissaoAlterar, ArrayList<Usuario> permissaoVisualizar, boolean status, GregorianCalendar dataCriacao) {
 		this.id = id;
 		this.nome = nome; 
 		this.descricao = descricao;
 		this.dono = dono;
+		this.status = status;
+		this.dataCriacao = dataCriacao;
 		this.permissaoAdicionar = permissaoAdicionar;
 		this.permissaoRemover = permissaoRemover;
 		this.permissaoAlterar = permissaoAlterar;
 		this.permissaoVisualizar = permissaoVisualizar;
-		this.status = status;
-		this.dataCriacao = dataCriacao;
+		
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		ArrayList<Usuario> admin = new ArrayList<Usuario>();
+		usuarios.add(dono);
+		admin.add(dono);
+		
 	}
 
 	public Grupo(int id, String nome, String descricao, Usuario dono, boolean status, GregorianCalendar dataCriacao) {
@@ -33,10 +44,17 @@ public class Grupo {
 		ArrayList<Usuario> permissaoAlterar = new ArrayList<Usuario>();
 		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
 
+
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		ArrayList<Usuario> admin = new ArrayList<Usuario>();
+		
 		permissaoAdicionar.add(dono);
 		permissaoRemover.add(dono);
 		permissaoAlterar.add(dono);
 		permissaoVisualizar.add(dono);
+		
+		usuarios.add(dono);
+		admin.add(dono);
 
 		this.id = id;
 		this.nome = nome; 
@@ -55,13 +73,17 @@ public class Grupo {
 		ArrayList<Usuario> permissaoRemover = new ArrayList<Usuario>();
 		ArrayList<Usuario> permissaoAlterar = new ArrayList<Usuario>();
 		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
+		
+
+		ArrayList<GrupoPublico> gruposPublicos = new ArrayList<GrupoPublico>();
+		ArrayList<GrupoPrivado> gruposPrivados = new ArrayList<GrupoPrivado>();
 
 		if (isPrivate) {
 			permissaoAdicionar.add(dono);
 			permissaoRemover.add(dono);
 			permissaoAlterar.add(dono);
 			permissaoVisualizar.add(dono);
-
+			
 			for (Usuario user : membros) {
 				permissaoVisualizar.add(user);
 			}
@@ -75,6 +97,12 @@ public class Grupo {
 				permissaoVisualizar.add(user);
 			}
 		}
+		
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		ArrayList<Usuario> admin = new ArrayList<Usuario>();
+		
+		usuarios.add(dono);
+		admin.add(dono);
 
 		this.id = id;
 		this.nome = nome; 
