@@ -118,10 +118,36 @@ public class Usuario {
 		this.status = status;
 	}
 
+	public void adicionarGrupo(Grupo grupo) {
+		this.grupos.add(grupo);
+	}
+
 	public void sairDoGrupo(Grupo grupo) {
 		int index = grupos.indexOf(grupo);
 		grupos.remove(index);
 	}
+
+	public void deletarGrupo(Grupo grupo) {
+		int index = grupos.indexOf(grupo);
+		if (index < 0) return;
+		Grupo grupoToRemove = grupos.get(index);
+		grupos.remove(index);
+		grupoToRemove.setUsuarios(this, new ArrayList<Usuario>());
+	}
+
+	public void adicionarUsuario(Usuario newUser, Grupo grupo) {
+		ArrayList<Usuario> usuariosAtuais = grupo.getUsuarios(this);
+		if (usuariosAtuais.indexOf(newUser) >= 0) {
+			usuariosAtuais.add(newUser);
+			grupo.setUsuarios(this,usuariosAtuais);
+			newUser.adicionarGrupo(grupo);
+		}
+	}
+
+	public ArrayList<Grupo> getTodosGrupos() {
+		return this.grupos;
+	}
+
 
 	@Override
 	public String toString(){

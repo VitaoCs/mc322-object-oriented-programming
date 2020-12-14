@@ -296,6 +296,22 @@ public class Grupo {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public ArrayList<Usuario> getUsuarios(Usuario user) {
+		boolean isAdmin = user instanceof Admin;
+		if (user == this.dono || isAdmin) {
+			return this.usuarios;
+		} else {
+			return null;
+		}
+	}
+
+	public void setUsuarios(Usuario user, ArrayList<Usuario> usuarios) {
+		boolean isAdmin = user instanceof Admin;
+		if (user == this.dono || isAdmin) {
+			this.usuarios = usuarios;
+		}
+	}
+
 	public ArrayList<Permissoes> getUsuarioPermissao(Usuario usuario) {
 		ArrayList<Integer> index = new ArrayList<Integer>();
 		ArrayList<Permissoes> permissoesUsuario = new ArrayList<Permissoes>();
