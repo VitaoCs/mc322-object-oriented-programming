@@ -28,6 +28,7 @@ public class WhatsApp {
 	private final int usuariosIniciais;
 	private final int gruposPublicosIniciais;
 	private ArrayList<Usuario> usuarios;
+	private ArrayList<Admin> admins;
 	// private static ArrayList<GrupoPublico> gruposPublicos;
 	// private static ArrayList<GrupoPrivado> gruposPrivados;
 
@@ -36,6 +37,7 @@ public class WhatsApp {
 		this.usuariosIniciais = usuarios;
 		this.gruposPublicosIniciais = grupos;
 		this.usuarios = new ArrayList<Usuario>();
+		this.admins = new ArrayList<Admin>();
 		// this.gruposPublicos = new ArrayList<GrupoPublico>();
 		// this.gruposPrivados = new ArrayList<GrupoPrivado>();
 	}
@@ -48,6 +50,10 @@ public class WhatsApp {
 		return this.usuarios;
 	}
 
+	private ArrayList<Admin> getAdmins() {
+		return this.admins;
+	}
+
 	private Usuario getUsuarioPorId(int id) {
 		for (Usuario usuario : usuarios) {
 			if (usuario.getId() == id) return usuario;
@@ -57,6 +63,10 @@ public class WhatsApp {
 
 	private void addUsuario(Usuario usuario) {
 		this.usuarios.add(usuario);
+	}
+
+	private void addAdmin(Admin admin) {
+		this.admins.add(admin);
 	}
 
 	private void criarBancoDeUsuarios() {
@@ -209,7 +219,24 @@ public class WhatsApp {
 			System.out.print(".");
 		}
 		System.out.print("\n");
-		menuPrincipal(scanner, user);
+		menuPrincipal(scanner, user, null);
+	}
+
+	private void telaCriarAdmin(Scanner scanner) {
+		limparTela();
+		System.out.println("Crie um administrador para acessar a expericencia da plataforma");
+		Admin admin = new Admin(scanner);
+		addUsuario(admin);
+		System.out.print("Administrador criado, entrando na plataforma");
+		for (int i = 0; i < 5; i++) {
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (Exception e) {
+			}
+			System.out.print(".");
+		}
+		System.out.print("\n");
+		menuPrincipal(scanner, admin, admin);
 	}
 
 	private void telaAcessarGrupos(Scanner scanner, Usuario user) {
@@ -483,7 +510,7 @@ public class WhatsApp {
 		}
 	}
 
-	private void menuPrincipal(Scanner scanner, Usuario user) {
+	private void menuPrincipal(Scanner scanner, Usuario user, Admin admin) {
 		limparTela();
 		int option = 0;
 		System.out.println(ANSI_GREEN_BACKGROUND + "Bem vindx ao Menu Principal\n" + ANSI_RESET);
@@ -491,6 +518,7 @@ public class WhatsApp {
 		mostrarGrupos(user);
 
 		do {
+			System.out.println("[0] Sair");
 			System.out.println("[1] Acessar um grupo");
 			// System.out.println("[2] Deletar mensagem do grupo");
 			System.out.println("[3] Criar um grupo");
@@ -502,6 +530,7 @@ public class WhatsApp {
 			System.out.println("[9] Remover usuario do grupo");
 			// System.out.println("[10] Pesquisar um grupo");
 			System.out.println("[11] Sair");
+			if(admin != null) System.out.println("[11] Excluir um usuário");
 			System.out.print("Insira uma opcao: ");
 			try {
 				option = scanner.nextInt();
@@ -510,6 +539,10 @@ public class WhatsApp {
 				break;
 			}
 			switch (option) {
+				case 0:
+					System.out.println("-----------------------------");
+					menuInicial(scanner);
+				break;
 				case 1:
 					telaAcessarGrupos(scanner, user);
 					break;
@@ -537,8 +570,14 @@ public class WhatsApp {
 				case 10:
 					break;
 				case 11:
-					System.out.println("-----------------------------");
-					menuInicial(scanner);
+					System.out.println("Digite o email do usuário que será excluido");
+					login = scanner.next();
+					System.out.println(usuarios);
+					for(Usuario usuario : usuarios) {
+				        if(usuario.getEmail().equals(login)) {
+				        	admin.deletarUsuario(usuario);
+				        }
+				    }
 					break;
 				default:
 					limparTela();
@@ -567,7 +606,7 @@ public class WhatsApp {
 					telaCriarUsuario(scanner);
 					break;
 				case 2:
-					System.out.println("Tela Admin");
+					telaCriarAdmin(scanner);
 					break;
 				case 3:
 					System.out.println("-----------------------------");
