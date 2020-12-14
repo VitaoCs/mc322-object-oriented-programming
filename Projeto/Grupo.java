@@ -17,11 +17,12 @@ public class Grupo {
 	private ArrayList<Usuario> permissaoRemover;
 	private ArrayList<Usuario> permissaoAlterar;
 	private ArrayList<Usuario> permissaoVisualizar;
+	private ArrayList<Mensagem> Mensagens;
 	
 	
 	public Grupo(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> permissaoAdicionar, ArrayList<Usuario> permissaoRemover, ArrayList<Usuario> permissaoAlterar, ArrayList<Usuario> permissaoVisualizar, boolean status, GregorianCalendar dataCriacao) {
 		this.id = id;
-		this.nome = nome; 
+		this.nome = nome; 	
 		this.descricao = descricao;
 		this.dono = dono;
 		this.status = status;
@@ -30,7 +31,8 @@ public class Grupo {
 		this.permissaoRemover = permissaoRemover;
 		this.permissaoAlterar = permissaoAlterar;
 		this.permissaoVisualizar = permissaoVisualizar;
-		
+
+		ArrayList<Mensagem> Mensagens = new ArrayList<Mensagem>();		
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 		ArrayList<Usuario> admin = new ArrayList<Usuario>();
 		usuarios.add(dono);
@@ -43,6 +45,7 @@ public class Grupo {
 		ArrayList<Usuario> permissaoRemover = new ArrayList<Usuario>();
 		ArrayList<Usuario> permissaoAlterar = new ArrayList<Usuario>();
 		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
+		ArrayList<Mensagem> Mensagens = new ArrayList<Mensagem>();
 
 
 		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -247,6 +250,20 @@ public class Grupo {
 				break;
 		}
 	}
+
+
+	public ArrayList<Mensagem> getMensagem() {
+		return this.Mensagem;
+	}
+
+	public void addMensagem(Mensagem mensagem_nova) {
+		lista_mensagens = getMensagem()
+		lista_mensagens.add(mensagem_nova);
+
+
+		return lista_mensagens;
+	}
+
 
 	public ArrayList<Usuario> getPermissaoAdicionar() {
 		return this.permissaoAdicionar;

@@ -8,11 +8,17 @@ public class Mensagem {
 	protected GregorianCalendar data;
 
 
-	//construtor
+	//construtores
 	public Mensagem(String texto, Usuario usuario, GregorianCalendar data) {	
 		this.texto = texto; 
 		this.usuario = usuario;
 		this.data = data;
+	}
+
+	public Mensagem(String texto, Usuario usuario) {	
+		this.texto = texto; 
+		this.usuario = usuario;
+		this.data = new GregorianCalendar;
 	}
 
 
