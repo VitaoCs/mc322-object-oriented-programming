@@ -529,7 +529,6 @@ public class WhatsApp {
 			System.out.println("[8] Adicionar usuario no grupo");
 			System.out.println("[9] Remover usuario do grupo");
 			// System.out.println("[10] Pesquisar um grupo");
-			System.out.println("[11] Sair");
 			if(admin != null) System.out.println("[11] Excluir um usuário");
 			System.out.print("Insira uma opcao: ");
 			try {
