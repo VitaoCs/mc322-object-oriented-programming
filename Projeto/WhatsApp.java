@@ -170,7 +170,7 @@ public class WhatsApp {
 		}
 	}
 
-	private GrupoPublico getGrupoPorId(ArrayList<GrupoPublico> grupos, int id) {
+	private GrupoPublico getGrupoPorId(int id, ArrayList<GrupoPublico> grupos) {
 		for (GrupoPublico grupo : grupos) {
 			if (grupo.getId() == id) {
 				return grupo;
@@ -253,7 +253,7 @@ public class WhatsApp {
 		}
 
 		if (isGrupoPublico(option)) {
-			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
+			GrupoPublico grupo = getGrupoPorId(option, gruposPublicos);
 			telaGrupo(scanner, user, grupo);
 		} else if (isGrupoPublico(option)) {
 			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
@@ -514,6 +514,7 @@ public class WhatsApp {
 	private void menuPrincipal(Scanner scanner, Usuario user, Admin admin) {
 		limparTela();
 		int option = 0;
+		String login = "";
 		System.out.println(ANSI_GREEN_BACKGROUND + "Bem vindx ao Menu Principal\n" + ANSI_RESET);
 		System.out.println("Seus grupos:");
 		mostrarGrupos(user);
