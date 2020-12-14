@@ -156,7 +156,7 @@ public class WhatsApp {
 		System.out.println("Digite sua mensagem: ");
 		try {
 			String text = scanner.next();
-			if (text = "") {
+			if (text == "") {
 				telaGrupo(scanner, user, grupo);
 			} else {
 				ArrayList<Mensagem> mensagens = grupo.getMensagens();
@@ -181,7 +181,7 @@ public class WhatsApp {
 
 	private GrupoPrivado getGrupoPorId(ArrayList<GrupoPrivado> grupos, int id) {
 		for (GrupoPrivado grupo : grupos) {
-			if (grupo.getId() == id)) {
+			if (grupo.getId() == id) {
 				return grupo;
 			}
 		}
@@ -249,7 +249,7 @@ public class WhatsApp {
 			option = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 
 		if (isGrupoPublico(option)) {
@@ -260,7 +260,7 @@ public class WhatsApp {
 			telaGrupo(scanner, user, grupo);
 		} else {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 	}
 
@@ -356,11 +356,11 @@ public class WhatsApp {
 		if (isPrivate) {
 			GrupoPrivado grupo = new GrupoPrivado(scanner, user);
 			gruposPrivados.add(grupo);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		} else {
 			GrupoPublico grupo = new GrupoPublico(scanner, user);
 			gruposPublicos.add(grupo);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 	}
 
@@ -377,7 +377,7 @@ public class WhatsApp {
 				option = scanner.nextInt();
 			} catch (Exception e) {
 				System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-				menuPrincipal(scanner, user);
+				menuPrincipal(scanner, user, null);
 				break;
 			}
 			switch (option) {
@@ -389,7 +389,7 @@ public class WhatsApp {
 					break;
 				case 3:
 					System.out.println("-----------------------------");
-					menuPrincipal(scanner, user);
+					menuPrincipal(scanner, user, null);
 					break;
 				default:
 					limparTela();
@@ -408,7 +408,7 @@ public class WhatsApp {
 			option = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 		
 		if (isGrupoPublico(option)) {
@@ -429,7 +429,7 @@ public class WhatsApp {
 			option = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 		
 		if (isGrupoPublico(option)) {
@@ -455,7 +455,7 @@ public class WhatsApp {
 			optionGrupo = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 
 		System.out.println("Selecione o id do usuario que quer adicionar ao grupo:");
@@ -464,7 +464,7 @@ public class WhatsApp {
 			optionUsuario = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 
 		Usuario usuario = getUsuarioPorId(optionUsuario);
@@ -488,7 +488,7 @@ public class WhatsApp {
 			optionGrupo = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 
 		System.out.println("Selecione o id do usuario que quer remover do grupo:");
@@ -497,7 +497,7 @@ public class WhatsApp {
 			optionUsuario = scanner.nextInt();
 		} catch (Exception e) {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-			menuPrincipal(scanner, user);
+			menuPrincipal(scanner, user, null);
 		}
 
 		Usuario usuario = getUsuarioPorId(optionUsuario);
