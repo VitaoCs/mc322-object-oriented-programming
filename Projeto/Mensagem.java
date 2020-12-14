@@ -26,12 +26,12 @@ public class Mensagem {
 	}
 		
 				
-	public String getUsuario() {
-		return this.usuario.login;
+	public Usuario getUsuario() {
+		return this.usuario;
 	}
 
-	public void setUsuario(String login) {
-		this.usuario.login = login;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 		
 		
@@ -47,7 +47,7 @@ public class Mensagem {
 	//método tostring
 	@Override
 	public String toString(){
-		String out = "Usuario: " + getUsuario() + "\n";
+		String out = "Usuario: " + getUsuario().login + "\n";
 		out = out + " Mensagem: " + getTexto() + "\n";
 		out = out + " Enviado: " + getData().getTime() + "\n";
 		return out;
