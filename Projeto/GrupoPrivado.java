@@ -16,6 +16,10 @@ public class GrupoPrivado extends Grupo {
 		super(id, nome, descricao, dono, membros, status, dataCriacao, true);
 	}
 
+	public GrupoPrivado(Scanner scanner, Usuario dono) {
+		super(scanner, dono, true);
+	}
+
 	public void adicionaMembro(Usuario dono, Usuario novoMembro, Permissoes permissao) {
 		boolean isDono = dono == getDono();
 		if (getStatus() && isDono) {
@@ -23,7 +27,7 @@ public class GrupoPrivado extends Grupo {
 			membrosAtuais.add(novoMembro);
 			setPermissaoVisualizar(membrosAtuais);
 		} else {
-			System.out.print("Grupo desativado ou usuário não é o dono!! \n");
+			System.out.print("Grupo desativado ou usuario nao e o dono!!! \n");
 		}
 	}
 
@@ -37,7 +41,7 @@ public class GrupoPrivado extends Grupo {
 				setPermissaoVisualizar(membrosAtuais);
 			}
 		} else {
-			System.out.print("Grupo desativado ou usuário não é o dono!! \n");
+			System.out.print("Grupo desativado ou usuario nao e o dono!! \n");
 		}
 	}
 

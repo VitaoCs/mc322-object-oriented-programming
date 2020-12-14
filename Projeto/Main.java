@@ -7,9 +7,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-
-		// Usuario user = new Usuario(scanner);
-		WhatsApp whats = new WhatsApp("2.2.1", 5, 2);
+	
+		WhatsApp whats = new WhatsApp("1.0.0", 6, 4);
 		whats.init(scanner);
 
 		scanner.close();

@@ -29,8 +29,9 @@ public class WhatsApp {
 	private final int gruposPublicosIniciais;
 	private ArrayList<Usuario> usuarios;
 	private ArrayList<Admin> admins;
-	// private static ArrayList<GrupoPublico> gruposPublicos;
-	// private static ArrayList<GrupoPrivado> gruposPrivados;
+	private static ArrayList<GrupoPublico> gruposPublicos;
+	private static ArrayList<GrupoPrivado> gruposPrivados;
+
 
 	public WhatsApp(String versao, int usuarios, int grupos) {
 		this.versao = versao;
@@ -38,8 +39,8 @@ public class WhatsApp {
 		this.gruposPublicosIniciais = grupos;
 		this.usuarios = new ArrayList<Usuario>();
 		this.admins = new ArrayList<Admin>();
-		// this.gruposPublicos = new ArrayList<GrupoPublico>();
-		// this.gruposPrivados = new ArrayList<GrupoPrivado>();
+		this.gruposPublicos = new ArrayList<GrupoPublico>();
+		this.gruposPrivados = new ArrayList<GrupoPrivado>();
 	}
 
 	public String getVersao() {
@@ -137,7 +138,7 @@ public class WhatsApp {
 		System.out.println("Digite sua mensagem: ");
 		try {
 			String text = scanner.next();
-			if (text = "") {
+			if (text == "") {
 				telaGrupo(scanner, user, grupo);
 			} else {
 				ArrayList<Mensagem> mensagens = grupo.getMensagens();
@@ -170,8 +171,8 @@ public class WhatsApp {
 	}
 
 	private GrupoPublico getGrupoPorId(ArrayList<GrupoPublico> grupos, int id) {
-		for (Grupo grupo : grupos) {
-			if (grupo.getId().equals(id)) {
+		for (GrupoPublico grupo : grupos) {
+			if (grupo.getId() == id) {
 				return grupo;
 			}
 		}
@@ -179,8 +180,8 @@ public class WhatsApp {
 	}
 
 	private GrupoPrivado getGrupoPorId(ArrayList<GrupoPrivado> grupos, int id) {
-		for (Grupo grupo : grupos) {
-			if (grupo.getId().equals(id)) {
+		for (GrupoPrivado grupo : grupos) {
+			if (grupo.getId() == id)) {
 				return grupo;
 			}
 		}
@@ -189,7 +190,7 @@ public class WhatsApp {
 
 	private boolean isGrupoPrivado(int id) {
 		for (Grupo grupo : gruposPrivados) {
-			if (grupo.getId().equals(id)) {
+			if (grupo.getId() == id) {
 				return true;
 			}
 		}
@@ -198,7 +199,7 @@ public class WhatsApp {
 
 	private boolean isGrupoPublico(int id) {
 		for (Grupo grupo : gruposPublicos) {
-			if (grupo.getId().equals(id)) {
+			if (grupo.getId() == id) {
 				return true;
 			}
 		}
@@ -310,7 +311,7 @@ public class WhatsApp {
 				option = scanner.nextInt();
 			} catch (Exception e) {
 				System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
-				telaMandarMsg(scanner, user);
+				telaAcessarGrupos(scanner, user);
 				break;
 			}
 			switch (option) {
@@ -319,7 +320,7 @@ public class WhatsApp {
 					break;
 				case 2:
 					System.out.println("-----------------------------");
-					telaMandarMsg(scanner, user);
+					telaAcessarGrupos(scanner, user);
 					break;
 				default:
 					limparTela();
@@ -330,7 +331,7 @@ public class WhatsApp {
 	}
 
 	private ArrayList<Usuario> addUsuariosNoGrupo(Scanner scanner) {
-		String option = 0;
+		String option = "";
 		System.out.println("Digite o id dos usuarios que deseja adicionar ao grupo: [idA,idB,etc] ");
 		try {
 			option = scanner.next();
