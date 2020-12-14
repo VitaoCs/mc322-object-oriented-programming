@@ -10,7 +10,7 @@ public class Usuario {
 	private String senha;
 	private GregorianCalendar dataAtivacao;
 	private boolean status;
-	// private ArrayList<Grupo> grupos;
+	private ArrayList<Grupo> grupos;
 
 	public Usuario(String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status) {
 		this.numeroUsuarios = ++numeroUsuarios;
@@ -20,7 +20,7 @@ public class Usuario {
 		this.senha = senha;
 		this.dataAtivacao = dataAtivacao;
 		this.status = status;
-		// this.grupos = new ArrayList<Grupo>();
+		this.grupos = new ArrayList<Grupo>();
 	}
 
 	public Usuario(String login, String email, String senha, boolean status) {
@@ -31,7 +31,7 @@ public class Usuario {
 		this.senha = senha;
 		this.dataAtivacao = new GregorianCalendar();
 		this.status = status;
-		// this.grupos = new ArrayList<Grupo>();
+		this.grupos = new ArrayList<Grupo>();
 	}
 
 	public Usuario(String login, String email, String senha) {
@@ -42,7 +42,7 @@ public class Usuario {
 		this.senha = senha;
 		this.dataAtivacao = new GregorianCalendar();
 		this.status = true;
-		// this.grupos = new ArrayList<Grupo>();
+		this.grupos = new ArrayList<Grupo>();
 	}
 
 	public Usuario(Scanner scanner) {
@@ -65,7 +65,7 @@ public class Usuario {
 		this.senha = senha;
 		this.dataAtivacao = new GregorianCalendar();
 		this.status = true;
-		// this.grupos = new ArrayList<Grupo>();
+		this.grupos = new ArrayList<Grupo>();
 
 		System.out.println(this.toString());
 	}
@@ -118,18 +118,10 @@ public class Usuario {
 		this.status = status;
 	}
 
-	// public int getNumeroGrupos() {
-	// 	return this.grupos.size();
-	// }
-
-	// public ArrayList<Grupo> getTodosGrupos() {
-	// 	return this.grupos;
-	// }
-
-	// public Grupo getGrupo(Grupo grupo) {
-	// 	int index = this.grupos.indexOf(grupo);
-	// 	return this.grupos.get(index);
-	// }
+	public void sairDoGrupo(Grupo grupo) {
+		int index = grupos.indexOf(grupo);
+		grupos.remove(index);
+	}
 
 	@Override
 	public String toString(){
@@ -139,11 +131,6 @@ public class Usuario {
 		out = out + " data ativacao: " + getDataAtivacao().getTime() + "\n";
 		out = out + " status: " + getStatus() + "\n";
 
-		// int numberGroups = getNumeroGrupos();
-		// if (numberGroups > 0) {
-		// 	out = out + " membro de " + numberGroups;
-		// 	out = numberGroups > 1 ? out + " grupos\n" : out + " grupo\n";
-		// }
 		return out ;
 	}
 }

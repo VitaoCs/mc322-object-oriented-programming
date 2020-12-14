@@ -16,6 +16,10 @@ public class GrupoPrivado extends Grupo {
 		super(id, nome, descricao, dono, membros, status, dataCriacao, true);
 	}
 
+	public GrupoPrivado(Scanner scanner, Usuario dono) {
+		super(scanner, dono, true);
+	}
+
 	public void adicionaMembro(Usuario dono, Usuario novoMembro, Permissoes permissao) {
 		boolean isDono = dono == getDono();
 		if (getStatus() && isDono) {

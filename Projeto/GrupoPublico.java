@@ -16,6 +16,10 @@ public class GrupoPublico extends Grupo {
 		super(id, nome, descricao, dono, membros, status, dataCriacao, false);
 	}
 
+	public GrupoPublico(Scanner scanner, Usuario dono) {
+		super(scanner, dono, false);
+	}
+
 	public void adicionaMembro(Usuario dono, Usuario novoMembro, Permissoes permissao) {
 		if (getStatus()) {
 			for (Permissoes permissoes : Permissoes.values()) {

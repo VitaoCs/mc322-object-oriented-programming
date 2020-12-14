@@ -116,6 +116,66 @@ public class Grupo {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public Grupo(Scanner scanner, Usuario dono, boolean isPrivate) {
+		System.out.println("Preencha os dados a seguir para a criacao do grupo");
+		System.out.print("Nome: ");
+		String nome = scanner.next();
+
+		System.out.print("Descricao: ");
+		String descricao = scanner.next();   
+
+		System.out.print("Id [inteiro]: ");
+		String id = scanner.nextInt();
+
+		System.out.println("\nUsuario criado!\n");
+
+		ArrayList<Usuario> permissaoAdicionar = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoRemover = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoAlterar = new ArrayList<Usuario>();
+		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
+		
+
+		ArrayList<GrupoPublico> gruposPublicos = new ArrayList<GrupoPublico>();
+		ArrayList<GrupoPrivado> gruposPrivados = new ArrayList<GrupoPrivado>();
+
+		if (isPrivate) {
+			permissaoAdicionar.add(dono);
+			permissaoRemover.add(dono);
+			permissaoAlterar.add(dono);
+			permissaoVisualizar.add(dono);
+			
+			for (Usuario user : membros) {
+				permissaoVisualizar.add(user);
+			}
+		} else {
+			membros.add(dono);
+
+			for (Usuario user : membros) {
+				permissaoAdicionar.add(user);
+				permissaoRemover.add(user);
+				permissaoAlterar.add(user);
+				permissaoVisualizar.add(user);
+			}
+		}
+		
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		ArrayList<Usuario> admin = new ArrayList<Usuario>();
+		
+		usuarios.add(dono);
+		admin.add(dono);
+
+		this.id = id;
+		this.nome = nome; 
+		this.descricao = descricao;
+		this.dono = dono;
+		this.permissaoAdicionar = permissaoAdicionar;
+		this.permissaoRemover = permissaoRemover;
+		this.permissaoAlterar = permissaoAlterar;
+		this.permissaoVisualizar = permissaoVisualizar;
+		this.status = true;
+		this.dataCriacao = new GregorianCalendar();
+	}
+
 	public int getId() {
 		return this.id;
 	}
