@@ -28,16 +28,16 @@ public class WhatsApp {
 	private final int usuariosIniciais;
 	private final int gruposPublicosIniciais;
 	private ArrayList<Usuario> usuarios;
-	// private static ArrayList<GrupoPublico> gruposPublicos;
-	// private static ArrayList<GrupoPrivado> gruposPrivados;
+	private static ArrayList<GrupoPublico> gruposPublicos;
+	private static ArrayList<GrupoPrivado> gruposPrivados;
 
 	public WhatsApp(String versao, int usuarios, int grupos) {
 		this.versao = versao;
 		this.usuariosIniciais = usuarios;
 		this.gruposPublicosIniciais = grupos;
 		this.usuarios = new ArrayList<Usuario>();
-		// this.gruposPublicos = new ArrayList<GrupoPublico>();
-		// this.gruposPrivados = new ArrayList<GrupoPrivado>();
+		this.gruposPublicos = new ArrayList<GrupoPublico>();
+		this.gruposPrivados = new ArrayList<GrupoPrivado>();
 	}
 
 	public String getVersao() {
