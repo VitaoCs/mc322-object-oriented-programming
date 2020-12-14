@@ -114,7 +114,7 @@ public class Usuario {
 		return status;
 	}
 	
-	public void setStatus(boolean status) {
+	public void setStatus(Admin admin, boolean status) {
 		this.status = status;
 	}
 

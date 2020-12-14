@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
@@ -5,6 +6,10 @@ public class Admin extends Usuario {
 
     public Admin(int id, String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status, Grupo grupos) {
 		super(login, email, senha, dataAtivacao, status, grupos);
+    }
+    
+    public Admin(Scanner scanner) {
+		super(scanner);
 	}
     
     public void deletarGrupo(Grupo grupo) {
