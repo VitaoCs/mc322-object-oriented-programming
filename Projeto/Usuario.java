@@ -15,7 +15,7 @@ public class Usuario {
 	public Usuario(String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status) {
 		this.numeroUsuarios = ++numeroUsuarios;
 		this.id = this.numeroUsuarios;
-		this.login = login; 
+		this.login = login;
 		this.email = email;
 		this.senha = senha;
 		this.dataAtivacao = dataAtivacao;
@@ -26,7 +26,7 @@ public class Usuario {
 	public Usuario(String login, String email, String senha, boolean status) {
 		this.numeroUsuarios = ++numeroUsuarios;
 		this.id = this.numeroUsuarios;
-		this.login = login; 
+		this.login = login;
 		this.email = email;
 		this.senha = senha;
 		this.dataAtivacao = new GregorianCalendar();
@@ -37,7 +37,7 @@ public class Usuario {
 	public Usuario(String login, String email, String senha) {
 		this.numeroUsuarios = ++numeroUsuarios;
 		this.id = this.numeroUsuarios;
-		this.login = login; 
+		this.login = login;
 		this.email = email;
 		this.senha = senha;
 		this.dataAtivacao = new GregorianCalendar();
@@ -51,7 +51,7 @@ public class Usuario {
 		String login = scanner.next();
 
 		System.out.print("Email: ");
-		String email = scanner.next();   
+		String email = scanner.next();
 
 		System.out.print("Senha: ");
 		String senha = scanner.next();
@@ -60,7 +60,7 @@ public class Usuario {
 
 		this.numeroUsuarios = ++numeroUsuarios;
 		this.id = this.numeroUsuarios;
-		this.login = login; 
+		this.login = login;
 		this.email = email;
 		this.senha = senha;
 		this.dataAtivacao = new GregorianCalendar();
@@ -69,7 +69,7 @@ public class Usuario {
 
 		System.out.println(this.toString());
 	}
-	
+
 	public static int getNumeroUsuarios() {
 		return numeroUsuarios;
 	}
@@ -81,7 +81,7 @@ public class Usuario {
 	public String getLogin() {
 		return login;
 	}
-	
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
@@ -89,23 +89,23 @@ public class Usuario {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
-	}		
-	
+	}
+
 	public String getSenha() {
 		return senha;
 	}
-	
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	public GregorianCalendar getDataAtivacao() {
 		return dataAtivacao;
 	}
-	
+
 	public void setDataAtivacao(GregorianCalendar dataAtivacao) {
 		this.dataAtivacao = dataAtivacao;
 	}
@@ -113,7 +113,7 @@ public class Usuario {
 	public boolean getStatus() {
 		return status;
 	}
-	
+
 	public void setStatus(Admin admin, boolean status) {
 		this.status = status;
 	}
@@ -129,7 +129,8 @@ public class Usuario {
 
 	public void deletarGrupo(Grupo grupo) {
 		int index = grupos.indexOf(grupo);
-		if (index < 0) return;
+		if (index < 0)
+			return;
 		Grupo grupoToRemove = grupos.get(index);
 		grupos.remove(index);
 		grupoToRemove.setUsuarios(this, new ArrayList<Usuario>());
@@ -139,7 +140,7 @@ public class Usuario {
 		ArrayList<Usuario> usuariosAtuais = grupo.getUsuarios(this);
 		if (usuariosAtuais.indexOf(newUser) >= 0) {
 			usuariosAtuais.add(newUser);
-			grupo.setUsuarios(this,usuariosAtuais);
+			grupo.setUsuarios(this, usuariosAtuais);
 			newUser.adicionarGrupo(grupo);
 		}
 	}
@@ -148,15 +149,14 @@ public class Usuario {
 		return this.grupos;
 	}
 
-
 	@Override
-	public String toString(){
+	public String toString() {
 		String out = getLogin() + " (id: " + getId() + " )\n";
 		out = out + " email: " + getEmail() + "\n";
 		out = out + " senha: " + getSenha() + "\n";
 		out = out + " data ativacao: " + getDataAtivacao().getTime() + "\n";
 		out = out + " status: " + getStatus() + "\n";
 
-		return out ;
+		return out;
 	}
 }
