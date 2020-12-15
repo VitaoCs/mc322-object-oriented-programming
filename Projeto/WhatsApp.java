@@ -32,7 +32,6 @@ public class WhatsApp {
 	private static ArrayList<GrupoPublico> gruposPublicos;
 	private static ArrayList<GrupoPrivado> gruposPrivados;
 
-
 	public WhatsApp(String versao, int usuarios, int grupos) {
 		this.versao = versao;
 		this.usuariosIniciais = usuarios;
@@ -57,7 +56,8 @@ public class WhatsApp {
 
 	private Usuario getUsuarioPorId(int id) {
 		for (Usuario usuario : usuarios) {
-			if (usuario.getId() == id) return usuario;
+			if (usuario.getId() == id)
+				return usuario;
 		}
 		return null;
 	}
@@ -134,16 +134,14 @@ public class WhatsApp {
 		}
 	}
 
-	private String tratarMensagem(Scanner scanner, Usuario user, GrupoPrivado grupo) {
+	private void tratarMensagem(Scanner scanner, Usuario user, GrupoPrivado grupo) {
 		System.out.println("Digite sua mensagem: ");
 		try {
 			String text = scanner.next();
 			if (text == "") {
 				telaGrupo(scanner, user, grupo);
 			} else {
-				ArrayList<Mensagem> mensagens = grupo.getMensagens();
-				mensagens.add(new Mensagem(text, user));
-				grupo.setMensagens(mensagens);
+				grupo.addMensagem(new Mensagem(text, user));
 				mostrarUltimasMensagens(grupo);
 			}
 		} catch (Exception e) {
@@ -152,16 +150,14 @@ public class WhatsApp {
 		}
 	}
 
-	private String tratarMensagem(Scanner scanner, Usuario user, GrupoPublico grupo) {
+	private void tratarMensagem(Scanner scanner, Usuario user, GrupoPublico grupo) {
 		System.out.println("Digite sua mensagem: ");
 		try {
 			String text = scanner.next();
 			if (text == "") {
 				telaGrupo(scanner, user, grupo);
 			} else {
-				ArrayList<Mensagem> mensagens = grupo.getMensagens();
-				mensagens.add(new Mensagem(text, user));
-				grupo.setMensagens(mensagens);
+				grupo.addMensagem(new Mensagem(text, user));
 				mostrarUltimasMensagens(grupo);
 			}
 		} catch (Exception e) {
@@ -170,7 +166,7 @@ public class WhatsApp {
 		}
 	}
 
-	private GrupoPublico getGrupoPorId(int id, ArrayList<GrupoPublico> grupos) {
+	private GrupoPublico getGrupoPorId(ArrayList<GrupoPublico> grupos, int id) {
 		for (GrupoPublico grupo : grupos) {
 			if (grupo.getId() == id) {
 				return grupo;
@@ -179,7 +175,7 @@ public class WhatsApp {
 		return null;
 	}
 
-	private GrupoPrivado getGrupoPorId(ArrayList<GrupoPrivado> grupos, int id) {
+	private GrupoPrivado getGrupoPorId(int id, ArrayList<GrupoPrivado> grupos) {
 		for (GrupoPrivado grupo : grupos) {
 			if (grupo.getId() == id) {
 				return grupo;
@@ -253,10 +249,10 @@ public class WhatsApp {
 		}
 
 		if (isGrupoPublico(option)) {
-			GrupoPublico grupo = getGrupoPorId(option, gruposPublicos);
+			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
 			telaGrupo(scanner, user, grupo);
-		} else if (isGrupoPublico(option)) {
-			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
+		} else if (isGrupoPrivado(option)) {
+			GrupoPrivado grupo = getGrupoPorId(option, gruposPrivados);
 			telaGrupo(scanner, user, grupo);
 		} else {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
@@ -343,9 +339,10 @@ public class WhatsApp {
 		String[] listId = option.split(",");
 		ArrayList<Usuario> users = new ArrayList<Usuario>();
 		for (String id : listId) {
-			Usuario user = getUsuarioPorId( Integer.parseInt(id));
-			
-			if (user != null) users.add(user);
+			Usuario user = getUsuarioPorId(Integer.parseInt(id));
+
+			if (user != null)
+				users.add(user);
 		}
 
 		return users;
@@ -410,12 +407,12 @@ public class WhatsApp {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
 			menuPrincipal(scanner, user, null);
 		}
-		
+
 		if (isGrupoPublico(option)) {
 			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
 			user.sairDoGrupo(grupo);
 		} else if (isGrupoPrivado(option)) {
-			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
+			GrupoPrivado grupo = getGrupoPorId(option, gruposPrivados);
 			user.sairDoGrupo(grupo);
 		}
 	}
@@ -431,14 +428,14 @@ public class WhatsApp {
 			System.out.println(ANSI_YELLOW_BACKGROUND + ANSI_RED + "Opcao invalida" + ANSI_RESET);
 			menuPrincipal(scanner, user, null);
 		}
-		
+
 		if (isGrupoPublico(option)) {
 			GrupoPublico grupo = getGrupoPorId(gruposPublicos, option);
 			user.deletarGrupo(grupo);
 			int index = gruposPublicos.indexOf(grupo);
 			gruposPublicos.remove(index);
 		} else if (isGrupoPrivado(option)) {
-			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, option);
+			GrupoPrivado grupo = getGrupoPorId(option, gruposPrivados);
 			user.deletarGrupo(grupo);
 			int index = gruposPrivados.indexOf(grupo);
 			gruposPrivados.remove(index);
@@ -473,7 +470,7 @@ public class WhatsApp {
 			GrupoPublico grupo = getGrupoPorId(gruposPublicos, optionGrupo);
 			user.adicionarUsuario(usuario, grupo);
 		} else if (isGrupoPrivado(optionGrupo)) {
-			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, optionGrupo);
+			GrupoPrivado grupo = getGrupoPorId(optionGrupo, gruposPrivados);
 			user.adicionarUsuario(usuario, grupo);
 		}
 	}
@@ -504,10 +501,10 @@ public class WhatsApp {
 
 		if (isGrupoPublico(optionGrupo)) {
 			GrupoPublico grupo = getGrupoPorId(gruposPublicos, optionGrupo);
-			grupo.removerUsuario(usuario);
+			grupo.removerUsuario(user, usuario);
 		} else if (isGrupoPrivado(optionGrupo)) {
-			GrupoPrivado grupo = getGrupoPorId(gruposPrivados, optionGrupo);
-			grupo.removerUsuario(usuario);
+			GrupoPrivado grupo = getGrupoPorId(optionGrupo, gruposPrivados);
+			grupo.removerUsuario(user, usuario);
 		}
 	}
 
@@ -531,7 +528,8 @@ public class WhatsApp {
 			System.out.println("[8] Adicionar usuario no grupo");
 			System.out.println("[9] Remover usuario do grupo");
 			// System.out.println("[10] Pesquisar um grupo");
-			if(admin != null) System.out.println("[11] Excluir um usuário");
+			if (admin != null)
+				System.out.println("[11] Excluir um usuário");
 			System.out.print("Insira uma opcao: ");
 			try {
 				option = scanner.nextInt();
@@ -543,7 +541,7 @@ public class WhatsApp {
 				case 0:
 					System.out.println("-----------------------------");
 					menuInicial(scanner);
-				break;
+					break;
 				case 1:
 					telaAcessarGrupos(scanner, user);
 					break;
@@ -574,11 +572,11 @@ public class WhatsApp {
 					System.out.println("Digite o email do usuário que será excluido");
 					login = scanner.next();
 					System.out.println(usuarios);
-					for(Usuario usuario : usuarios) {
-				        if(usuario.getEmail().equals(login)) {
-				        	admin.deletarUsuario(usuario);
-				        }
-				    }
+					for (Usuario usuario : usuarios) {
+						if (usuario.getEmail().equals(login)) {
+							admin.deletarUsuario(usuario);
+						}
+					}
 					break;
 				default:
 					limparTela();
