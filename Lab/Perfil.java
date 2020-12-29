@@ -1,7 +1,7 @@
 import java.util.GregorianCalendar;
 
 public class Perfil {
-    private Sexo sexo;
+	private Sexo sexo;
 	private GregorianCalendar dataNascimento;
 	private String cidade;
 	private Estado estado;
@@ -9,9 +9,10 @@ public class Perfil {
 	private String descricao;
 	private String foto;
 
-	public Perfil(Sexo sexo, GregorianCalendar dataNascimento, String cidade, Estado estado, String telefone, String descricao, String foto) {
+	public Perfil(Sexo sexo, GregorianCalendar dataNascimento, String cidade, Estado estado, String telefone,
+			String descricao, String foto) {
 		this.sexo = sexo;
-		this.dataNascimento = dataNascimento; 
+		this.dataNascimento = dataNascimento;
 		this.cidade = cidade;
 		this.estado = estado;
 		this.telefone = telefone;
@@ -38,7 +39,7 @@ public class Perfil {
 	public String getCidade() {
 		return cidade;
 	}
-	
+
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
 	}
@@ -46,7 +47,7 @@ public class Perfil {
 	public String getEstado() {
 		return estado.getAtributos();
 	}
-	
+
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
@@ -54,7 +55,7 @@ public class Perfil {
 	public String getTelefone() {
 		return telefone;
 	}
-	
+
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
@@ -76,14 +77,14 @@ public class Perfil {
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		String out = " sexo: " + getSexo() + "\n";
 		out = out + " data de nascimento: " + getDataNascimento().getTime() + "\n";
 		out = out + " cidade: " + getCidade() + "\n";
 		out = out + " estado: " + getEstado() + "\n";
 		out = out + " telefone: " + getTelefone() + "\n";
 		out = out + " descricao: " + getDescricao() + "\n";
-		out = out + " foto: "+ getFoto() + "\n";
-		return out ;
-	}	
+		out = out + " foto: " + getFoto() + "\n";
+		return out;
+	}
 }
