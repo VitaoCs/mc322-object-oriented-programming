@@ -6,7 +6,7 @@ public enum Labels {
     private final String rotulo;
     private final String cor;
 
-    Labels(String rotulo, String descricao) {
+    Labels(String rotulo, String cor) {
         this.rotulo = rotulo;
         this.cor = cor;
     }
