@@ -1,21 +1,11 @@
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class UsuarioConvidado extends Usuario {
-	private GregorianCalendar dataExpiracao;
+public class UsuarioComum extends Usuario {
 
-	public UsuarioConvidado(int id, String login, String email, String senha, String descricao,
-			GregorianCalendar dataAtivacao, boolean status, GregorianCalendar dataExpiracao, Perfil perfil) {
+	public UsuarioComum(int id, String login, String email, String senha, String descricao,
+			GregorianCalendar dataAtivacao, boolean status, Perfil perfil) {
 		super(id, login, email, senha, descricao, dataAtivacao, status, perfil);
-		this.dataExpiracao = dataExpiracao;
-	}
-
-	public GregorianCalendar getDataExpiracao() {
-		return this.dataExpiracao;
-	}
-
-	public void setDataExpiracao(GregorianCalendar dataExpiracao) {
-		this.dataExpiracao = dataExpiracao;
 	}
 
 	@Override

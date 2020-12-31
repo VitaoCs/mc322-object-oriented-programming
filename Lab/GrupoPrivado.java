@@ -4,22 +4,9 @@ import java.util.GregorianCalendar;
 
 public class GrupoPrivado extends Grupo {
 
-	public GrupoPrivado(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> permissaoAdicionar,
-			ArrayList<Usuario> permissaoRemover, ArrayList<Usuario> permissaoAlterar,
-			ArrayList<Usuario> permissaoVisualizar, ArrayList<Usuario> permissaoCriarCartao, ArrayList<Cartao> cartoes,
-			boolean status, GregorianCalendar dataCriacao) {
-		super(id, nome, descricao, dono, permissaoAdicionar, permissaoRemover, permissaoAlterar, permissaoVisualizar,
-				permissaoCriarCartao, cartoes, status, dataCriacao);
-	}
-
 	public GrupoPrivado(int id, String nome, String descricao, Usuario dono, boolean status,
 			GregorianCalendar dataCriacao) {
 		super(id, nome, descricao, dono, status, dataCriacao);
-	}
-
-	public GrupoPrivado(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> membros, boolean status,
-			GregorianCalendar dataCriacao) {
-		super(id, nome, descricao, dono, membros, status, dataCriacao, true);
 	}
 
 	public void adicionaMembro(Usuario dono, Usuario novoMembro, Permissoes permissao) {
@@ -27,7 +14,9 @@ public class GrupoPrivado extends Grupo {
 		if (getStatus() && isDono) {
 			ArrayList<Usuario> membrosAtuais = getPermissaoVisualizar();
 			membrosAtuais.add(novoMembro);
+			novoMembro.adicionarGrupo(this);
 			setPermissaoVisualizar(membrosAtuais);
+			adicionarMembro(novoMembro);
 		} else {
 			System.out.print("Grupo desativado ou usuário não é o dono!! \n");
 		}
@@ -40,6 +29,8 @@ public class GrupoPrivado extends Grupo {
 			int index = membrosAtuais.indexOf(membro);
 			if (index >= 0) {
 				membrosAtuais.remove(index);
+				membro.removeGrupo(dono, this);
+				removerMembro(membro);
 				setPermissaoVisualizar(membrosAtuais);
 			}
 		} else {

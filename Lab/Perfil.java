@@ -20,6 +20,16 @@ public class Perfil {
 		this.foto = foto;
 	}
 
+	public Perfil() {
+		this.sexo = Sexo.HOMEM;
+		this.dataNascimento = new GregorianCalendar();
+		this.cidade = "Catanduva";
+		this.estado = Estado.AMAZONAS;
+		this.telefone = "99999999";
+		this.descricao = "perfil_default";
+		this.foto = "foto_default";
+	}
+
 	public String getSexo() {
 		return sexo.getAtributos();
 	}

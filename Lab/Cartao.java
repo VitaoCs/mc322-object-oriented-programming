@@ -2,7 +2,7 @@
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-public class Cartao {
+public class Cartao implements Comparable<Cartao> {
 	static private int numeroCartoes = 0;
 	private int id;
 	private int visibilidade;
@@ -12,11 +12,13 @@ public class Cartao {
 	private GregorianCalendar dataCriacao;
 	private Labels label;
 	private String assunto;
+	private Usuario responsavel;
+	private int prioridade;
 
-	public Cartao(int numeroCartoes, int id, int visibilidade, String nome, Usuario dono, boolean invitationOnly,
-			GregorianCalendar dataCriacao, Labels label, String assunto) {
+	public Cartao(int id, int visibilidade, String nome, Usuario dono, boolean invitationOnly,
+			GregorianCalendar dataCriacao, Labels label, String assunto, Usuario responsavel, int prioridade) {
 		this.numeroCartoes = ++numeroCartoes;
-		this.id = this.numeroCartoes;
+		this.id = id;
 		this.visibilidade = visibilidade;
 		this.nome = nome;
 		this.dono = dono;
@@ -24,65 +26,22 @@ public class Cartao {
 		this.dataCriacao = dataCriacao;
 		this.label = label;
 		this.assunto = assunto;
+		this.responsavel = responsavel;
+		this.prioridade = prioridade;
 	}
 
-	public Cartao(Scanner scanner) {
-		System.out.println("Preencha os dados a seguir para a criacao do cartao");
-		System.out.print("Visibilidade do cartao: ");
-		int visibilidadeCartao = scanner.nextInt();
-
-		System.out.print("Nome do cartao: ");
-		String nomeCartao = scanner.next();
-
-		System.out.print("Assunto do cartao: ");
-		String assuntoCartao = scanner.next();
-
-		System.out.print("Cartao exclusivo por convite? [y/n]: ");
-		String invitationInput = scanner.next();
-		boolean invitationOnlyCartao = invitationInput == "y";
-
-		System.out.print("Data de criação do cartao [dd/mm/aaaa]: ");
-		String data = scanner.next();
-
-		System.out.println("Cartao criado!");
-
-		int diaData = Integer.parseInt(data.substring(0, 2));
-		int mesData = Integer.parseInt(data.substring(3, 5)) - 1;
-		int anoData = Integer.parseInt(data.substring(6));
-
+	public Cartao(int id, int visibilidade, String nome, Usuario dono, boolean invitationOnly, String assunto, Usuario responsavel, int prioridade) {
 		this.numeroCartoes = ++numeroCartoes;
-		this.id = this.numeroCartoes;
-		this.visibilidade = visibilidadeCartao;
-		this.nome = nomeCartao;
-		this.dono = this.createDefaultDono();
-		this.invitationOnly = invitationOnlyCartao;
-		this.dataCriacao = new GregorianCalendar(anoData, mesData, diaData);
-		this.label = Labels.TO_DO;
-		this.assunto = assuntoCartao;
-	}
-
-	public Cartao(Usuario usuario) {
-		this.numeroCartoes = ++numeroCartoes;
-		this.id = this.numeroCartoes;
-		this.visibilidade = 0000;
-		this.nome = "nome_cartao_default";
-		this.dono = usuario;
-		this.invitationOnly = true;
+		this.id = id;
+		this.visibilidade = visibilidade;
+		this.nome = nome;
+		this.dono = dono;
+		this.invitationOnly = invitationOnly;
 		this.dataCriacao = new GregorianCalendar();
 		this.label = Labels.TO_DO;
-		this.assunto = "";
-	}
-
-	public Cartao() {
-		this.numeroCartoes = ++numeroCartoes;
-		this.id = this.numeroCartoes;
-		this.visibilidade = 0000;
-		this.nome = "nome_cartao_default";
-		this.dono = this.createDefaultDono();
-		this.invitationOnly = true;
-		this.dataCriacao = new GregorianCalendar();
-		this.label = Labels.TO_DO;
-		this.assunto = "";
+		this.assunto = assunto;
+		this.responsavel = responsavel;
+		this.prioridade = prioridade;
 	}
 
 	public static int getNumeroCartoes() {
@@ -129,6 +88,10 @@ public class Cartao {
 		return dono.getLogin();
 	}
 
+	public String getResponsavelLogin() {
+		return responsavel.getLogin();
+	}
+
 	public boolean getInvitationOnly() {
 		return this.invitationOnly;
 	}
@@ -145,18 +108,68 @@ public class Cartao {
 		this.dataCriacao = dataCriacao;
 	}
 
+	public Labels getLabel() {
+		return this.label;
+	}
+
+	public void setLabel(Labels label) {
+		this.label = label;
+	}
+
+	public String getAssunto() {
+		return this.assunto;
+	}
+
+	public void setAssunto(String assunto) {
+		this.assunto = assunto;
+	}
+
+	public Usuario getResponsavel() {
+		return this.responsavel;
+	}
+
+	public void setResponsavel(Usuario responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public int getPrioridade() {
+		return this.prioridade;
+	}
+
+	public void setPrioridade(int prioridade) {
+		this.prioridade = prioridade;
+	}
+
 	private Usuario createDefaultDono() {
-		return new Usuario(0000, "login_default", "email_default", "senha_default", "descricao_default", new GregorianCalendar(), true);
+		return new UsuarioComum(0000, "login_default", "email_default", "senha_default", "descricao_default",
+				new GregorianCalendar(), true, new Perfil());
+	}
+
+	public int compareTo(Cartao other) {
+		int thisPrioridade = this.prioridade;
+		int otherPrioridade = other.getPrioridade();
+
+		// menor o valor, mais prioritário
+		if (thisPrioridade > otherPrioridade) {
+			return 1;
+		} else if (thisPrioridade < otherPrioridade) {
+			return -1;
+		}
+		return 0;
 	}
 
 	@Override
 	public String toString() {
 		String out = "ID Cartao: " + getId() + "\n";
-		out = out + " numero de cartoes: " + getNumeroCartoes() + "\n";
-		out = out + " visibilidade: " + getVisibilidade() + "\n";
+		out = out + " label: " + getLabel().getAtributos() + "\n";
 		out = out + " nome: " + getNome() + "\n";
+		out = out + " assunto: " + getAssunto() + "\n";
+		out = out + " responsavel: " + getResponsavelLogin() + "\n";
+		out = out + " prioridade: " + getPrioridade() + "\n";
 		out = out + " dono: " + getDonoLogin() + "\n";
 		out = out + " exclusivo por convite: " + getInvitationOnly() + "\n";
+		out = out + " visibilidade: " + getVisibilidade() + "\n";
+		out = out + " numero de cartoes: " + getNumeroCartoes() + "\n";
 		out = out + " data criacao: " + getDataCriacao().getTime() + "\n";
 		return out;
 	}

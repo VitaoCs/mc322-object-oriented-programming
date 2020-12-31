@@ -128,7 +128,7 @@ public class Sala {
     }
 
     private Usuario createDefaultDono() {
-        return new Usuario(0000, "login_default", "email_default", "senha_default", new GregorianCalendar(), true);
+        return new UsuarioComum(0000, "login_default", "email_default", "senha_default", new GregorianCalendar(), true, new Perfil());
     }
 	
     public boolean getIngressoAutomatico() {

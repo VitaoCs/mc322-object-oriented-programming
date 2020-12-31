@@ -4,22 +4,9 @@ import java.util.GregorianCalendar;
 
 public class GrupoPublico extends Grupo {
 
-	public GrupoPublico(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> permissaoAdicionar,
-			ArrayList<Usuario> permissaoRemover, ArrayList<Usuario> permissaoAlterar,
-			ArrayList<Usuario> permissaoVisualizar, ArrayList<Usuario> permissaoCriarCartao, ArrayList<Cartao> cartoes,
-			boolean status, GregorianCalendar dataCriacao) {
-		super(id, nome, descricao, dono, permissaoAdicionar, permissaoRemover, permissaoAlterar, permissaoVisualizar,
-				permissaoCriarCartao, cartoes, status, dataCriacao);
-	}
-
 	public GrupoPublico(int id, String nome, String descricao, Usuario dono, boolean status,
 			GregorianCalendar dataCriacao) {
 		super(id, nome, descricao, dono, status, dataCriacao);
-	}
-
-	public GrupoPublico(int id, String nome, String descricao, Usuario dono, ArrayList<Usuario> membros, boolean status,
-			GregorianCalendar dataCriacao) {
-		super(id, nome, descricao, dono, membros, status, dataCriacao, false);
 	}
 
 	public void adicionaMembro(Usuario dono, Usuario novoMembro, Permissoes permissao) {
@@ -29,6 +16,9 @@ public class GrupoPublico extends Grupo {
 				usuarios.add(novoMembro);
 				setUsuariosPermissoes(usuarios, permissoes);
 			}
+
+			adicionarMembro(novoMembro);
+			novoMembro.adicionarGrupo(this);
 		}
 	}
 
@@ -39,6 +29,8 @@ public class GrupoPublico extends Grupo {
 				int index = usuarios.indexOf(membro);
 				if (index >= 0) {
 					usuarios.remove(index);
+					membro.removeGrupo(dono, this);
+					removerMembro(membro);
 					setUsuariosPermissoes(usuarios, permissao);
 				}
 			}
