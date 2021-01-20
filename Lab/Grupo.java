@@ -25,6 +25,10 @@ public class Grupo {
 		ArrayList<Usuario> permissaoVisualizar = new ArrayList<Usuario>();
 		ArrayList<Usuario> permissaoCriarCartao = new ArrayList<Usuario>();
 
+
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		ArrayList<Usuario> admin = new ArrayList<Usuario>();
+		
 		permissaoAdicionar.add(dono);
 		permissaoRemover.add(dono);
 		permissaoAlterar.add(dono);
