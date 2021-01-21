@@ -35,7 +35,7 @@ public class Mensagem implements Serializable {
 		this.status = true;
 		this.data = new GregorianCalendar();
 
-		addMensagemToDataBase(this, grupo.getId());
+		addMessageToDataBase(this, grupo.getId());
 	}
 
 	// métodos de get e set
@@ -78,20 +78,23 @@ public class Mensagem implements Serializable {
 		}
 	}
 
-	private void addMensagemToDataBase(Mensagem msg, int grupoId) {
+	private void addMessageToDataBase(Mensagem msg, int grupoId) {
 		String msgRepo = "dataBase/grupos/" + grupoId;
-		String msgPath = msgRepo + "/mensagems.dat";
 		File file = new File(msgRepo);
 		if (!file.exists()) {
 			if(file.mkdirs()) {
-				writeMessageToDataBase(msg, msgPath);
+				writeMessageToDataBase(msg, msgRepo, file.listFiles());
 			}
 		} else {
-			writeMessageToDataBase(msg, msgPath);
+			writeMessageToDataBase(msg, msgRepo, file.listFiles());
 		}
 	}
 
-	private void writeMessageToDataBase(Mensagem msg, String msgPath) {
+	private void writeMessageToDataBase(Mensagem msg, String msgRepo, File[] files) {
+		int numberMessages = files.length;
+		int msgFileNumber = numberMessages + 1;
+		String msgPath = msgRepo + "/mensagem_" + msgFileNumber + ".dat";
+
 		try {
 			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(msgPath));
 			
