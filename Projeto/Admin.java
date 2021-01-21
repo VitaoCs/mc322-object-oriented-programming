@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 public class Admin extends Usuario {

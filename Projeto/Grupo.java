@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.File;
 
-public class Grupo {
+public abstract class Grupo {
 	protected int id;
 	protected String nome;
 	protected String descricao;
@@ -164,6 +164,7 @@ public class Grupo {
 		}
 	}
 
+	/*Lista por extenso dos usários de um grupo:*/
 	public String usuariosToString() {
 		String out = "";
 		out = out + "*****************************\n";
@@ -234,13 +235,6 @@ public class Grupo {
 	}
 
 	@Override
-	public String toString() {
-		String out = "Grupo: " + getNome() + " (id: " + getId() + " )\n";
-		out = out + " descricao: " + getDescricao() + "\n";
-		out = out + " dono: " + getDonoLogin() + "\n";
-		out = out + " status: " + getStatus() + "\n";
-		out = out + " data criacao: " + getDataCriacao().getTime() + "\n";
-		out = out + usuariosToString();
-		return out;
-	}
+	/*O método toString tem implementação distinta para cada subclasse:*/
+	public abstract String toString();
 }
