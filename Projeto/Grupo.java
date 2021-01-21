@@ -1,6 +1,11 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.io.ObjectInputStream;
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.File;
 
 public class Grupo {
 	protected int id;
@@ -168,6 +173,64 @@ public class Grupo {
 
 		out = out + "*****************************\n";
 		return out;
+	}
+
+	public ArrayList<Mensagem> getMessagesFromDB() {
+		ArrayList<Mensagem> messages = new ArrayList<Mensagem>();
+		String groupDB = "dataBase/grupos/" + this.getId();
+		File fileGroupDB = new File(groupDB);
+		File[] messageFiles = fileGroupDB.listFiles();
+
+		for (int i = 0; i < messageFiles.length; i++) {
+			String file = groupDB + "/" + messageFiles[i].getName();
+			try {
+				ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
+
+				Mensagem msg = (Mensagem) input.readObject();
+				messages.add(msg);
+				input.close();
+			} catch (EOFException e) {
+				return null;
+			} catch (ClassNotFoundException er) {
+				System.err.print("Classe incompatível");
+				System.exit(1);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		if (messages.size() > 0) return messages;
+
+		return null;
+	}
+
+	public ArrayList<Mensagem> getMessagesFromDBByUser(Usuario user) {
+		ArrayList<Mensagem> messages = new ArrayList<Mensagem>();
+		String groupDB = "dataBase/grupos/" + this.getId();
+		File fileGroupDB = new File(groupDB);
+		File[] messageFiles = fileGroupDB.listFiles();
+
+		for (int i = 0; i < messageFiles.length; i++) {
+			String file = groupDB + "/" + messageFiles[i].getName();
+			try {
+				ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
+
+				Mensagem msg = (Mensagem) input.readObject();
+				if (msg.getUsuario() == user) messages.add(msg);
+				input.close();
+			} catch (EOFException e) {
+				return null;
+			} catch (ClassNotFoundException er) {
+				System.err.print("Classe incompatível");
+				System.exit(1);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		if (messages.size() > 0) return messages;
+
+		return null;
 	}
 
 	@Override

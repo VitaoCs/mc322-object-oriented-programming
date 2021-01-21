@@ -1,8 +1,14 @@
+import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.io.ObjectOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-public class Mensagem {
+public class Mensagem implements Serializable {
 
 	// atributos da classe
+	private static final long serialVersionUID = 302L;
 	protected String texto;
 	protected Usuario usuario;
 	protected Boolean status;
@@ -21,6 +27,15 @@ public class Mensagem {
 		this.usuario = usuario;
 		this.status = true;
 		this.data = new GregorianCalendar();
+	}
+
+	public Mensagem(String texto, Usuario usuario, Grupo grupo) {
+		this.texto = texto;
+		this.usuario = usuario;
+		this.status = true;
+		this.data = new GregorianCalendar();
+
+		addMessageToDataBase(this, grupo.getId());
 	}
 
 	// métodos de get e set
@@ -60,6 +75,34 @@ public class Mensagem {
 		boolean isAdmin = user instanceof Admin;
 		if (user == this.usuario || isAdmin) {
 			this.status = status;
+		}
+	}
+
+	private void addMessageToDataBase(Mensagem msg, int grupoId) {
+		String msgRepo = "dataBase/grupos/" + grupoId;
+		File file = new File(msgRepo);
+		if (!file.exists()) {
+			if(file.mkdirs()) {
+				writeMessageToDataBase(msg, msgRepo, file.listFiles());
+			}
+		} else {
+			writeMessageToDataBase(msg, msgRepo, file.listFiles());
+		}
+	}
+
+	private void writeMessageToDataBase(Mensagem msg, String msgRepo, File[] files) {
+		int numberMessages = files.length;
+		int msgFileNumber = numberMessages + 1;
+		String msgPath = msgRepo + "/mensagem_" + msgFileNumber + ".dat";
+
+		try {
+			ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(msgPath));
+			
+			output.writeObject(msg);
+			output.flush();
+			output.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
