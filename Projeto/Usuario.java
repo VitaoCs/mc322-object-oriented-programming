@@ -1,8 +1,10 @@
 import java.util.Scanner;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Usuario {
+public class Usuario implements Serializable{
+	private static final long serialVersionUID = 302L;
 	static private int numeroUsuarios = 0;
 	private int id;
 	private String login;
