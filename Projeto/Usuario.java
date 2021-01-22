@@ -15,12 +15,12 @@ public class Usuario implements Serializable{
 	private ArrayList<Grupo> grupos;
 
 	public Usuario(String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status) {
-		this.numeroUsuarios = ++numeroUsuarios;
+		numeroUsuarios++;
 		try {
 			if(this.login == null) {
 				throw new IllegalArgumentException(); 
 			}else {
-				this.id = this.numeroUsuarios;
+				this.id = numeroUsuarios;
 				this.login = login;
 				this.email = email;
 				this.senha = senha;
@@ -34,12 +34,12 @@ public class Usuario implements Serializable{
 	}
 
 	public Usuario(String login, String email, String senha, boolean status) {
-		this.numeroUsuarios = ++numeroUsuarios;
+		numeroUsuarios++;
 		try {
 			if(this.login == null) {
 				throw new IllegalArgumentException(); 
 			}else {
-				this.id = this.numeroUsuarios;
+				this.id = numeroUsuarios;
 				this.login = login;
 				this.email = email;
 				this.senha = senha;
@@ -54,12 +54,12 @@ public class Usuario implements Serializable{
 	}
 
 	public Usuario(String login, String email, String senha) {
-		this.numeroUsuarios = ++numeroUsuarios;
+		numeroUsuarios++;
 		try {
 			if(this.login == null) {
 				throw new IllegalArgumentException(); 
 			}else {
-				this.id = this.numeroUsuarios;
+				this.id = numeroUsuarios;
 				this.login = login;
 				this.email = email;
 				this.senha = senha;
@@ -85,8 +85,8 @@ public class Usuario implements Serializable{
 
 		System.out.println("\nUsuario criado!\n");
 
-		this.numeroUsuarios = ++numeroUsuarios;
-		this.id = this.numeroUsuarios;
+		numeroUsuarios++;
+		this.id = numeroUsuarios;
 		this.login = login;
 		this.email = email;
 		this.senha = senha;
