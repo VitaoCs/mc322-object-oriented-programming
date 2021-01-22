@@ -156,14 +156,7 @@ public class Grupo {
 		}
 	}
 
-	public void removerUsuario(Usuario user, Usuario removeUser) {
-		boolean isAdmin = user instanceof Admin;
-		if (user == this.dono || isAdmin) {
-			int index = this.usuarios.indexOf(removeUser);
-			this.usuarios.remove(index);
-		}
-	}
-
+	/*Lista por extenso dos us�rios de um grupo:*/
 	public String usuariosToString() {
 		String out = "";
 		out = out + "*****************************\n";
@@ -204,6 +197,7 @@ public class Grupo {
 		return null;
 	}
 
+
 	public ArrayList<Mensagem> getMessagesFromDBByUser(Usuario user) {
 		ArrayList<Mensagem> messages = new ArrayList<Mensagem>();
 		String groupDB = "dataBase/grupos/" + this.getId();
@@ -233,14 +227,8 @@ public class Grupo {
 		return null;
 	}
 
-	@Override
-	public String toString() {
-		String out = "Grupo: " + getNome() + " (id: " + getId() + " )\n";
-		out = out + " descricao: " + getDescricao() + "\n";
-		out = out + " dono: " + getDonoLogin() + "\n";
-		out = out + " status: " + getStatus() + "\n";
-		out = out + " data criacao: " + getDataCriacao().getTime() + "\n";
-		out = out + usuariosToString();
-		return out;
-	}
+	
+	/*O m�todo removerUsuario tem implementa��o distinta para cada subclasse:*/
+	public abstract void removerUsuario(Usuario user, Usuario removeUser);
+	
 }

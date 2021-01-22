@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class Usuario implements Serializable{
+public class Usuario implements Serializable,TextoPorExtenso {
 	private static final long serialVersionUID = 302L;
 	static private int numeroUsuarios = 0;
 	private int id;
@@ -177,7 +177,7 @@ public class Usuario implements Serializable{
 	}
 
 	@Override
-	public String toString() {
+	public String textoExtenso() {
 		String out = getLogin() + " (id: " + getId() + " )\n";
 		out = out + " email: " + getEmail() + "\n";
 		out = out + " senha: " + getSenha() + "\n";

@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class Mensagem implements Serializable {
+public class Mensagem implements Serializable, TextoPorExtenso {
 
 	// atributos da classe
 	private static final long serialVersionUID = 302L;
@@ -65,7 +65,7 @@ public class Mensagem implements Serializable {
 		
 	}
 
-	// métodos de get e set
+	// metodos de get e set
 	public String getTexto() {
 		return this.texto;
 	}
@@ -134,7 +134,7 @@ public class Mensagem implements Serializable {
 	}
 
 	@Override
-	public String toString() {
+	public String textoExtenso() {
 		String out = "Usuario: " + getLoginUsuario() + "\n";
 		out = out + " Mensagem: " + getTexto() + "\n";
 		out = out + " Enviado: " + getData().getTime() + "\n";
