@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.io.ObjectOutputStream;
 import java.io.File;
@@ -16,26 +17,52 @@ public class Mensagem implements Serializable {
 
 	// construtores
 	public Mensagem(String texto, Usuario usuario, GregorianCalendar data) {
-		this.texto = texto;
-		this.usuario = usuario;
-		this.status = true;
-		this.data = data;
+		try {
+			if(this.texto == null || this.usuario == null) {
+				throw new IllegalArgumentException(); 
+			}else {
+				this.texto = texto;
+				this.usuario = usuario;
+				this.status = true;
+				this.data = data;
+			}
+		}catch(IllegalArgumentException e) {
+			System.out.println("O texto/usuario é obrigatório");
+		}
 	}
 
 	public Mensagem(String texto, Usuario usuario) {
-		this.texto = texto;
-		this.usuario = usuario;
-		this.status = true;
-		this.data = new GregorianCalendar();
+		try {
+			if(this.texto == null || this.usuario == null) {
+				throw new IllegalArgumentException(); 
+			}else {
+				this.texto = texto;
+				this.usuario = usuario;
+				this.status = true;
+				this.data = new GregorianCalendar();
+			}
+		}catch(IllegalArgumentException e) {
+			System.out.println("O texto/usuario é obrigatório");
+		}
+		
 	}
 
 	public Mensagem(String texto, Usuario usuario, Grupo grupo) {
-		this.texto = texto;
-		this.usuario = usuario;
-		this.status = true;
-		this.data = new GregorianCalendar();
+		try {
+			if(this.texto == null || this.usuario == null) {
+				throw new IllegalArgumentException(); 
+			}else {
+				this.texto = texto;
+				this.usuario = usuario;
+				this.status = true;
+				this.data = new GregorianCalendar();
 
-		addMessageToDataBase(this, grupo.getId());
+				addMessageToDataBase(this, grupo.getId());
+			}
+		}catch(IllegalArgumentException e) {
+			System.out.println("O texto/usuario é obrigatório");
+		}
+		
 	}
 
 	// métodos de get e set

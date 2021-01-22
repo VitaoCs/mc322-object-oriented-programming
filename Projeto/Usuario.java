@@ -16,35 +16,60 @@ public class Usuario implements Serializable{
 
 	public Usuario(String login, String email, String senha, GregorianCalendar dataAtivacao, boolean status) {
 		numeroUsuarios++;
-		this.id = numeroUsuarios;
-		this.login = login;
-		this.email = email;
-		this.senha = senha;
-		this.dataAtivacao = dataAtivacao;
-		this.status = status;
-		this.grupos = new ArrayList<Grupo>();
+		try {
+			if(this.login == null) {
+				throw new IllegalArgumentException(); 
+			}else {
+				this.id = numeroUsuarios;
+				this.login = login;
+				this.email = email;
+				this.senha = senha;
+				this.dataAtivacao = dataAtivacao;
+				this.status = status;
+				this.grupos = new ArrayList<Grupo>();
+			}
+		}catch(IllegalArgumentException e) {
+			System.out.println("O login do usuário é obrigatório");
+		}
 	}
 
 	public Usuario(String login, String email, String senha, boolean status) {
 		numeroUsuarios++;
-		this.id = numeroUsuarios;
-		this.login = login;
-		this.email = email;
-		this.senha = senha;
-		this.dataAtivacao = new GregorianCalendar();
-		this.status = status;
-		this.grupos = new ArrayList<Grupo>();
+		try {
+			if(this.login == null) {
+				throw new IllegalArgumentException(); 
+			}else {
+				this.id = numeroUsuarios;
+				this.login = login;
+				this.email = email;
+				this.senha = senha;
+				this.dataAtivacao = new GregorianCalendar();
+				this.status = status;
+				this.grupos = new ArrayList<Grupo>();
+			}
+		}catch(IllegalArgumentException e) {
+			System.out.println("O login do usuário é obrigatório");
+		}
+		
 	}
 
 	public Usuario(String login, String email, String senha) {
 		numeroUsuarios++;
-		this.id = numeroUsuarios;
-		this.login = login;
-		this.email = email;
-		this.senha = senha;
-		this.dataAtivacao = new GregorianCalendar();
-		this.status = true;
-		this.grupos = new ArrayList<Grupo>();
+		try {
+			if(this.login == null) {
+				throw new IllegalArgumentException(); 
+			}else {
+				this.id = numeroUsuarios;
+				this.login = login;
+				this.email = email;
+				this.senha = senha;
+				this.dataAtivacao = new GregorianCalendar();
+				this.status = true;
+				this.grupos = new ArrayList<Grupo>();
+			}
+		}catch(IllegalArgumentException e) {
+			System.out.println("O login do usuário é obrigatório");
+		}
 	}
 
 	public Usuario(Scanner scanner) {
