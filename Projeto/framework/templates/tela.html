@@ -1,0 +1,208 @@
+<div class="grupos">
+    {% for item in lista_de_grupos %}
+
+    <button class="grupo" onclick="seleciona_conversa(id)" id={{item}}>
+        {{item}}
+    </button>
+
+    {% endfor %}
+
+</div>
+
+<div id="conversa_vazia" class="conversa"></div>
+
+<div id="conversa" class="conversa d-none">
+    <div class="cabecalho" id="cabecalho"></div>
+    <div id="mensagens" class="mensagens"></div>
+
+
+    <div>
+        <input onkeydown="teste_envio()" id="barra_de_mensagem" type="text" class="barra_de_envio" placeholder="Digite sua Mensagem...">
+        <button onclick="enviar_mensagem()" class="botao_envio">Enviar</button>
+    </div>
+
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+function scroll(){
+    var element = document.getElementById("mensagens");
+    element.scrollTop = element.scrollHeight;
+}
+
+function seleciona_conversa(id){
+    var element = document.getElementById(id);
+    texto = element.innerText;
+
+    var cabecalho = document.getElementById("cabecalho");
+    cabecalho.innerText = texto;
+
+    var conversa_vazia = document.getElementById("conversa_vazia");
+    conversa_vazia.classList.add('d-none')
+
+    var conversa_vazia = document.getElementById("conversa");
+    conversa_vazia.classList.remove('d-none')
+
+    busca_mensagens(texto)
+}
+
+function busca_mensagens(nome_do_grupo){
+
+    var conversa = document.getElementById("mensagens");
+    $.ajax({
+      url: '/busca_mensagens',
+      data: {
+        'nome_do_grupo': nome_do_grupo,
+      },
+      success: function(data){
+        matriz = data['matriz']
+
+        texto =''
+
+
+
+        for (i = 0; i < matriz.length; i++){
+            if (matriz[i][0] == "JadeAlice123"){
+                texto = texto + '<div class="mensagem_eu">'
+            }
+            else{
+                texto = texto + '<div class="mensagem">'
+            }
+
+                texto = texto + '<div>'
+                    texto = texto + matriz[i][0]
+                texto = texto + '</div>'
+
+                texto = texto + '<div class="margem">'
+                    texto = texto + matriz[i][1]
+                texto = texto + '</div>'
+
+                texto = texto + '<div>'
+                    texto = texto + matriz[i][2]
+                texto = texto + '</div>'
+            texto = texto + '</div>'
+        }
+
+        conversa.innerHTML = texto
+      }
+
+
+
+    });
+
+    scroll()
+}
+
+function enviar_mensagem(){
+    var cabecalho = document.getElementById("cabecalho");
+    nome_do_grupo = cabecalho.innerText;
+
+    var barra_de_mensagem = document.getElementById("barra_de_mensagem");
+    mensagem = barra_de_mensagem.innerText;
+
+    busca_mensagens(nome_do_grupo)
+}
+
+</script>
+
+
+<style>
+.margem{
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.grupos{
+    background-color: antiquewhite;
+    margin: 2rem;
+    border: 1px solid black;
+    width: 20rem;
+    height: 90%;
+    border-radius: 0.5rem;
+    overflow-y: auto;
+    float: left;
+    overflow-x: hidden;
+}
+
+.grupo{
+    margin: 0.5rem !important;
+    min-height: 5rem !important;
+    padding: 0.5rem !important;
+    border: 1px solid black !important;
+    border-radius: 0.25rem;
+    width: 95% !important;
+    background-color: white !important;
+}
+
+.conversa{
+    background-color: antiquewhite;
+    border: 1px solid black;
+    width: 85rem;
+    height: 90%;
+    border-radius: 0.5rem;
+    float: right;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+
+}
+
+.mensagem{
+    border-radius: 0.5rem;
+    border: 1px solid black;
+    margin: 2rem;
+    padding: 1rem;
+    background-color: white;
+    float: left;
+    width: 60rem;
+}
+
+.mensagem_eu{
+    border-radius: 0.5rem;
+    border: 1px solid black;
+    margin: 2rem;
+    padding: 1rem;
+    background-color: honeydew;
+    float: right;
+    width: 60rem;
+}
+
+.cabecalho{
+    padding: 1rem;
+}
+
+.mensagens{
+    height: 80%;
+    overflow-y: auto;
+}
+
+
+.barra_de_envio {
+    background-color: white;
+    width: 93%;
+    height: 4%;
+    margin-top: 4rem;
+    padding-left: 2rem;
+    margin-left: 1rem;
+    border-radius: 5rem;
+    border: 1px solid black;
+}
+
+.botao_envio{
+    float: right;
+    width: 4%;
+    margin-right: 1.5rem;
+    height: 4%;
+    margin-top: 4rem;
+    border-radius: 0.5rem;
+}
+
+.d-none{
+    display: none;
+}
+
+</style>
